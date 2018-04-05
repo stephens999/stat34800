@@ -1,0 +1,75 @@
+---
+title: "simple simulation for glmnet"
+author: "Matthew Stephens"
+date: "April 5, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Simulate some data
+
+```{r}
+library(glmnet)
+set.seed(1)
+p = 100
+n = 500
+X = matrix(rnorm(n*p),ncol=p)
+b = rnorm(p)
+e = rnorm(n,0,sd=25)
+Y = X %*% b + e
+```
+
+Now fit ols, ridge regression and lasso, and see some
+basic plots.
+```{r}
+Y.ols = lm(Y~X) 
+
+Y.ridge = glmnet(X,Y,alpha=0)
+plot(Y.ridge)
+
+Y.lasso = glmnet(X,Y,alpha=1)
+plot(Y.lasso)
+```
+
+The library also allows you to run cross-validation easily:
+```{r}
+cv.ridge = cv.glmnet(X,Y,alpha=0)
+plot(cv.ridge)
+
+cv.lasso = cv.glmnet(X,Y,alpha=1)
+plot(cv.lasso)
+```
+
+## Measure accuracy of coefficients
+
+Extract coefficients from best cv fits. 
+```{r}
+b.ridge = predict(Y.ridge, type="coefficients", s = cv.ridge$lambda.min)
+
+b.lasso = predict(Y.lasso, type="coefficients", s = cv.ridge$lambda.min)
+
+b.ols = Y.ols$coefficients
+```
+
+Note that the fits include an intercept (unregularized, equal to the mean of Y). 
+```{r}
+length(b.lasso)
+b.lasso[1]
+mean(Y)
+```
+
+Compare the estimated coefficients with the truth:
+```{r}
+btrue = c(0,b) # Here the 0 is the intercept (true value 0)
+
+sum((btrue-0)^2) # This is error if we just estimate 0 for everything and ignore data. It is better than OLS!
+sum((btrue-Y.ols$coefficients)^2)
+sum((btrue-b.ridge)^2)
+sum((btrue-b.lasso)^2)
+
+```
+

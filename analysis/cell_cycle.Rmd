@@ -1,0 +1,150 @@
+---
+title: "Cell cycle genes"
+author: "Matthew Stephens"
+date: "April 9, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Some Cell Cycle Data
+
+The data come from a recent experiment performed in the Gilad lab by Po Tung, in collaboration with Joyce Hsiao and others. 
+
+Since this is an anlaysis in progress, there is a lot we do not
+know about these data.
+
+
+The data are measuring the activity of 10 genes that may or may not be involved in the "cell cycle", which is the process cells go through as
+they divide. (We have data on a large number of genes, but Joyce has picked out 10 of them for us to look at.) Each gene is measured
+in many single cells, and we have some independent (but noisy) measurement of where each cell is in the cell cycle.
+
+
+```{r}
+d = readRDS("../data/cyclegenes.rds")
+dim(d)
+```
+
+Here each row is a single cell. The first column ("theta") is an estimate
+of where that cell is in the cell cycle, from 0 to 2pi. (Note
+that we don't know what stage of the cell cycle each point in the
+interval corresponds to - so there is no guarantee that 0 is the
+"start" of the cell cycle. Also, because of the way these data were created we don't know which direction the cell cycle is going - it could be forward or backward.) Then there are 10 columns corresponding
+to 10 different genes.
+
+Here we just plot 8 genes to get a sense for the data:
+```{r}
+par(mfcol=c(2,2))
+for(i in 1:4){
+  plot(d$theta, d[,(i+1)],pch=".",ylab="gene expression",xlab="cell cycle location")
+}
+par(mfcol=c(2,2))
+for(i in 1:4){
+  plot(d$theta, d[,(i+5)],pch=".",ylab="gene expression",xlab="cell cycle location")
+}
+```
+
+The question we want to answer is this: which genes show greatest
+evidence for varying in their expression through the cell cycle?
+For now what we really want is a filter we can apply to a large
+number of genes to pick out the ones that look most "interesting".
+Later we might want a more formal statistical measure of evidence.
+
+
+To apply wavelets we need the data to be a power of 2.
+Also we need the data to be ordered in terms of theta.
+We'll subset the data to 512 elements here, and order it:
+```{r}
+# order the data
+o = order(d[,1])
+d = d[o,]
+plot(d$theta)
+
+# subset the data
+set.seed(1)
+subset = sort(sample(1:nrow(d),512,replace=FALSE))
+d.sub = d[subset,]
+```
+
+
+Here we do the Haar wavelet by specifying `family="DaubExPhase",filter.number = 1` to the discrete wavelet 
+transform function `wd`. The plot shows the wavelet transformed
+values, separately at each resolution.
+```{r}
+library("wavethresh")
+wds <- wd(d.sub[,2],family="DaubExPhase",filter.number = 1)
+plot(wds)
+```
+
+To illustrate the idea behind wavelet shrinkage we use
+the policy "manual" to shrink all the high-resolution coefficients 
+(levels 4-8) to 0. 
+```{r}
+wtd <- threshold(wds, levels = 4:8,  policy="manual",value = 99999) 
+plot(wtd) 
+```
+
+Now undo the wavelet transform on the shrunken coefficients
+```{r}
+fd <- wr(wtd) #reconstruct
+plot(d.sub$theta,d.sub[,2],xlab="cell cycle", ylab = "Expression")
+lines(d.sub$theta,fd,col=2,lwd=3)
+```
+
+
+The estimate here is a bit "jumpy", due to the use of the Haar wavelet and the rather naive hard thresholding. We can make it less "jumpy"
+by using a "less step-wise" wavelet basis
+```{r}
+wds <- wd(d.sub[,2],family="DaubLeAsymm",filter.number = 8)
+wtd <- threshold(wds, levels = 4:8,  policy="manual",value = 99999) 
+fd <- wr(wtd) #reconstruct
+plot(d.sub$theta,d.sub[,2],xlab="cell cycle", ylab = "Expression")
+lines(d.sub$theta,fd,col=2,lwd=3)
+```
+
+What happens if we use an Empirical Bayes thresholding rule?
+
+The EbayesThresh package essentially solves the EBNM problem,
+using a prior distribution that is a mixture of a point mass at 0
+and a Laplace distribution with rate parameter $a$:
+$$ \pi_0 \delta_0 + (1-\pi_0) DExp(a).$$
+
+Here `a=NA` tells Ebayesthresh ot estimate $a$.
+Notice that the outliers cause "problems"
+```{r}
+library("EbayesThresh")
+wds <- wd(d.sub[,2],family="DaubLeAsymm",filter.number = 8)
+wtd <- ebayesthresh.wavelet(wds,a=NA)
+fd <- wr(wtd) #reconstruct
+plot(d.sub$theta,d.sub[,2],xlab="cell cycle", ylab = "Expression")
+lines(d.sub$theta,fd,col=2,lwd=3)
+```
+
+Try removing the outliers (actually setting them to the mean here),
+just to see what happens.
+```{r}
+xx = ifelse(d.sub[,2]<2,mean(d.sub[,2]),d.sub[,2])
+wds <- wd(xx,family="DaubLeAsymm",filter.number = 8)
+wtd <- ebayesthresh.wavelet(wds,a=NA)
+fd <- wr(wtd) #reconstruct
+plot(d.sub$theta,xx,xlab="cell cycle", ylab = "Expression")
+lines(d.sub$theta,fd,col=2,lwd=3)
+```
+
+
+Notice that estimating $a$ is really important (the default is
+to set $a=0.5$):
+```{r}
+xx = ifelse(d.sub[,2]<2,mean(d.sub[,2]),d.sub[,2])
+wds <- wd(xx,family="DaubLeAsymm",filter.number = 8)
+wtd <- ebayesthresh.wavelet(wds)
+fd <- wr(wtd) #reconstruct
+plot(d.sub$theta,xx,xlab="cell cycle", ylab = "Expression")
+lines(d.sub$theta,fd,col=2,lwd=3)
+```
+
+
+
+

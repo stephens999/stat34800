@@ -1,0 +1,55 @@
+---
+title: "shrinkage"
+author: "Matthew Stephens"
+date: "April 9, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Simulate some data
+
+Here we simulate a pretty sparse situation: 90% sparsity.
+```{r}
+set.seed(1)
+theta = c(rep(0,900),rnorm(100,0,4))
+x = theta + rnorm(1000)
+hist(theta,breaks = seq(-10,10,length=20),xlim=c(-10,10))
+```
+
+
+Now do inference under the EBNM model. Notice
+how the small values are shrunk hard, and the big values
+are hardly shrunk at all.
+```{r}
+library("ashr")
+library("ebnm")
+x.pn = ebnm_point_normal(x,1)
+plot(x,get_pm(x.pn))
+abline(a=0,b=1,col="red")
+```
+
+What about soft thresholding?
+```{r}
+soft_thresh = function(x,lambda){
+  ifelse(abs(x)>lambda, sign(x)*(abs(x)-lambda), 0)
+}
+plot(x,soft_thresh(x,1.5))
+abline(a=0,b=1,col="red")
+```
+
+Now look at Mean Squared Error. Notice that both do
+much better than no shrinkage!!
+```{r}
+mse = rep(0,100)
+l = seq(0,5,length=100)
+for(i in 1:100){
+  mse[i] = mean((theta-soft_thresh(x,l[i]))^2)
+}
+plot(l,mse,ylim=c(0,1.2))
+abline(h=mean((theta-get_pm(x.pn))^2),col="red")
+abline(h=mean((theta-x)^2),col="blue")
+```
+

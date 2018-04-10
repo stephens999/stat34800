@@ -50,7 +50,7 @@ Extract coefficients from best cv fits.
 ```{r}
 b.ridge = predict(Y.ridge, type="coefficients", s = cv.ridge$lambda.min)
 
-b.lasso = predict(Y.lasso, type="coefficients", s = cv.ridge$lambda.min)
+b.lasso = predict(Y.lasso, type="coefficients", s = cv.lasso$lambda.min)
 
 b.ols = Y.ols$coefficients
 ```

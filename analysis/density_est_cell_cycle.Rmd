@@ -1,0 +1,117 @@
+---
+title: "histogram for cell cycle"
+author: "Matthew Stephens"
+date: "April 11, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Introduction
+
+We will try estimating the density of the cell cycle values.
+See (cell_cycle.Rmd) for more on those data.
+
+# Histograms
+
+First we try histograms. The histograms here are un-normalized, so not actually densities. We could normalize them
+easily enough, but I think it is helpful for you to see the counts get smaller.
+
+Let's start with the default:
+```{r}
+d = readRDS("../data/cyclegenes.rds")
+hist(d[,1],xlab="theta (cell cycle position)", main="Histogram of theta")
+```
+
+And now try decreasing bin sizes to see the bias/variance trade-off in action.
+```{r}
+hist(d[,1],breaks = seq(0,2*pi,length=5),xlab="theta (cell cycle position)", main="Histogram of theta")
+hist(d[,1],breaks = seq(0,2*pi,length=20),xlab="theta (cell cycle position)", main="Histogram of theta")
+hist(d[,1],breaks = seq(0,2*pi,length=100),xlab="theta (cell cycle position)", main="Histogram of theta")
+hist(d[,1],breaks = seq(0,2*pi,length=400),xlab="theta (cell cycle position)", main="Histogram of theta")
+hist(d[,1],breaks = seq(0,2*pi,length=1000),xlab="theta (cell cycle position)", main="Histogram of theta")
+```
+
+
+# Density estimation
+
+Let's try the default density estimation in the R function "density".
+```{r}
+hist(d[,1],breaks = seq(0,2*pi,length=100),xlab="theta (cell cycle position)", main="Histogram of theta",probability=TRUE)
+d.dens = density(d[,1])
+lines(d.dens$x,d.dens$y,col=2,lwd=2)
+```
+
+The analogue of bin size is "bandwidth", set using bw.
+Here we try four very different bandwidths.
+```{r}
+hist(d[,1],breaks = seq(0,2*pi,length=100),xlab="theta (cell cycle position)", main="Histogram of theta",probability=TRUE)
+d1.dens = density(d[,1],bw=0.01)
+d2.dens = density(d[,1],bw=0.1)
+d3.dens = density(d[,1],bw=1)
+d4.dens = density(d[,1],bw=10)
+
+lines(d1.dens$x,d1.dens$y,col=2,lwd=2)
+lines(d2.dens$x,d2.dens$y,col=3,lwd=2)
+lines(d3.dens$x,d3.dens$y,col=4,lwd=2)
+lines(d4.dens$x,d4.dens$y,col=5,lwd=2)
+```
+
+# A common issue with density
+
+Go back to the origin plot. 
+```{r}
+hist(d[,1],breaks = seq(0,2*pi,length=100),xlab="theta (cell cycle position)", main="Histogram of theta",probability=TRUE)
+d.dens = density(d[,1])
+lines(d.dens$x,d.dens$y,col=2,lwd=2)
+```
+
+
+Notice how the density seems too low at both
+ends of the plot. This is a common problem with density when applied to a finite domain like this. It is because it is estimating the density at 0 and notices
+there are no observations just to the left of 0, and this biases the estimate of density down.
+
+We can see the problem better if we plot a wider area:
+```{r}
+hist(d[,1],breaks = seq(-pi,3*pi,length=100),xlab="theta (cell cycle position)", main="Histogram of theta",probability=TRUE)
+d.dens = density(d[,1])
+lines(d.dens$x,d.dens$y,col=2,lwd=2)
+```
+
+
+To deal with this a simple trick is to reflect the data at both ends.
+
+```{r}
+x = d[,1]
+x = c(-x,x,2*pi + 2*pi-x)
+hist(x,prob=TRUE)
+```
+
+er... yuk! the default histogram was not very nice - have to do it by hand!
+```{r}
+hist(x,breaks = seq(-2*pi, 4*pi,length=100),probability=TRUE)
+abline(v=0,col=2)
+abline(v=2*pi,col=2)
+```
+
+So now we can estimate the density
+```{r}
+x.dens = density(x)
+hist(x,breaks = seq(-2*pi, 4*pi,length=100),probability=TRUE)
+lines(x.dens$x,x.dens$y,col=2)
+```
+
+Also yuk!! I had to experiment with bw to get a nicer plot....
+```{r}
+x.dens = density(x,bw=0.2)
+hist(x,breaks = seq(-2*pi, 4*pi,length=100),probability=TRUE)
+lines(x.dens$x,x.dens$y,col=3)
+```
+
+I now could get a nice density esitmate in the range 0 to 2pi by just truncating and renormalizing to have area 1.
+
+
+

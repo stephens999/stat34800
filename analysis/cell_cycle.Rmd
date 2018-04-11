@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Some Cell Cycle Data
+# Some Cell Cycle Data
 
 The data come from a recent experiment performed in the Gilad lab by Po Tung, in collaboration with Joyce Hsiao and others. 
 
@@ -67,7 +67,7 @@ The extreme would be if the smoother fits
 a horizontal line - that indicates no variability with theta, so those genes are not interesting
 to us.
 
-## Trend filtering
+# Trend filtering
 
 Here we will apply trend filtering to smooth these data. Trend filtering,
 at its simplest, applies L1 regularization to the changes in mean from one observation to the next.
@@ -103,8 +103,34 @@ plot(d[,1],d[,7],xlab="cell cycle",ylab="expression")
 lines(d[,1],predict(d7.tf2, d7.tf2.cv$lambda.min)$fit,col=3,lwd=3)
 ```
 
+## Dealing with the circularity
 
-## Wavelets 
+Because the $x$ axis here is cyclical, the value of $E(Y|x)$ near
+$x=0$ should be similar to the value near $x=2pi$. But
+trend filtering does not know this. We can encourage this behaviour
+by duplicating the data using a translation. (Note this is
+different than reflecting it about the boundaries).
+
+Here is an example:
+
+```{r}
+yy = c(d[,2],d[,2],d[,2]) ## duplicated data
+xx = c(d[,1]-2*pi, d[,1], d[,1]+2*pi) # shifted/translated x coordinates
+
+yy.tf2 = trendfilter(yy,ord = 2)
+yy.tf2.cv = cv.trendfilter(yy.tf2) # performs 5-fold CV
+plot(xx,yy,xlab="cell cycle",ylab="expression")
+lines(xx,predict(yy.tf2, yy.tf2.cv$lambda.min)$fit,col=3,lwd=3)
+
+# plot only a single version of data
+include = c(rep(FALSE,length(d[,2])), rep(TRUE, length(d[,2])), rep(FALSE, length(d[,2])))
+plot(xx[include],yy[include],xlab="cell cycle",ylab="expression", main="trend filtering with circular fit")
+lines(xx[include],predict(yy.tf2, yy.tf2.cv$lambda.min)$fit[include],col=3,lwd=3)
+
+```
+
+
+# Wavelets 
 
 Here we will apply wavelets to smooth these data.
 
@@ -196,5 +222,8 @@ lines(d.sub$theta,fd,col=2,lwd=3)
 ```
 
 
+## Dealing with the circularity
 
-
+Note that the default in this particular package (`wavethresh`) is to assume
+the data are periodic on their region of definition - that is, circular.
+So we don't have to do anything special here. It is taken care of!

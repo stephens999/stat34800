@@ -1,0 +1,79 @@
+---
+title: "Eight schools data"
+author: "Matthew Stephens"
+date: "April 11, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+Here I apply the adaptive shrinkage EB method to the eight schools data
+at (http://andrewgelman.com/2014/01/21/everything-need-know-bayesian-statistics-learned-eight-schools/)
+
+## Enter the data
+
+```{r}
+x = c(28,8,-3,7,-1,1,18,12)
+s = c(15,10,16,11,9,11,10,18)
+```
+
+# Plot the data
+
+Notice how the intervals very much overlap... suggesting the 
+data may be consistent with no differences
+```{r}
+library(rmeta)
+metaplot(x, s)
+```
+
+# Apply adaptive shrinkage
+
+Here we apply the adaptive shrinkage package, which
+solves the normal means problem with unimodal prior.
+By default the mode is 0, which is not appropriate for these data.
+So we estimate the mode:
+```{r}
+library(ashr)
+a = ash(x,s,mode="estimate")
+get_pm(a) # get the posterior mean
+```
+
+We can see that ash shrinks all the estimates to the same value, meaning the data
+are "most" consistent with no variation in effect.
+
+
+# Check adaptive shrinkage
+
+We might be worried maybe that we mis-used the software, or 
+that it is not working right. Does it always overshrink like that?
+
+When you get an unexpected result it is important to go back
+and check your understanding. A good way to do this is to make
+a prediction and then test it.
+
+For example, here I predict that if the standard errors for these data
+had been much smaller (with same x)
+then ash should not shrink as much, because the data would
+be more convincing of true variation in effect.
+
+I can test this prediction by dividing s by 10 say:
+
+```{r}
+metaplot(x,s/10)
+a = ash(x,s/10,mode="estimate")
+get_pm(a)
+```
+
+We can see my prediction was correct. So this gives me more confidence
+that I used the software correctly and that it is behaving sensibly.
+
+Remember: The most valuable opportunties to learn come from when you see something
+that you did not expect! Do not ignore unexpected results! They will sometimes
+just be silly errors, but other times they will reflect a gap in your
+understanding. And - sometimes - a gap in the understanding of the whole research
+community.
+

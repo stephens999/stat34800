@@ -34,6 +34,15 @@ interval corresponds to - so there is no guarantee that 0 is the
 "start" of the cell cycle. Also, because of the way these data were created we don't know which direction the cell cycle is going - it could be forward or backward.) Then there are 10 columns corresponding
 to 10 different genes.
 
+I'm going to order the rows by cell cycle (theta, first column) as this will make
+things much easier later.
+```{r}
+# order the data
+o = order(d[,1])
+d = d[o,]
+plot(d$theta)
+```
+
 Here we just plot 8 genes to get a sense for the data:
 ```{r}
 par(mfcol=c(2,2))
@@ -52,16 +61,57 @@ For now what we really want is a filter we can apply to a large
 number of genes to pick out the ones that look most "interesting".
 Later we might want a more formal statistical measure of evidence.
 
+Our current idea is to try "smoothing" these data, and pick out genes
+where the change in the mean over theta is most variable (in some sense).
+The extreme would be if the smoother fits
+a horizontal line - that indicates no variability with theta, so those genes are not interesting
+to us.
+
+## Trend filtering
+
+Here we will apply trend filtering to smooth these data. Trend filtering,
+at its simplest, applies L1 regularization to the changes in mean from one observation to the next.
+(The extreme would be no changes in any of these means, so a flat line.)
+It is implemented in the "genlasso" package.
+
+```{r}
+library(genlasso)
+d2.tf = trendfilter(d[,2],ord = 1)
+d2.tf.cv = cv.trendfilter(d2.tf) # performs 5-fold CV
+plot(d[,1],d[,2],xlab="cell cycle",ylab="expression")
+lines(d[,1],predict(d2.tf, d2.tf.cv$lambda.min)$fit,col=2,lwd=3)
+```
+
+This fit is a bit on the "spiky" side in places.
+We can get a smoother fit by using a higher order filter. The details
+are too much to include here, but basically instead of shrinking first
+order differences it shrinks things that also measure differences with neighbors
+a bit further apart (2nd order).
+```{r}
+d2.tf2 = trendfilter(d[,2],ord = 2)
+d2.tf2.cv = cv.trendfilter(d2.tf2) # performs 5-fold CV
+plot(d[,1],d[,2],xlab="cell cycle",ylab="expression")
+lines(d[,1],predict(d2.tf, d2.tf.cv$lambda.min)$fit,col=2,lwd=3)
+lines(d[,1],predict(d2.tf2, d2.tf2.cv$lambda.min)$fit,col=3,lwd=3)
+```
+
+And here we try another gene that maybe shows less evidence for variability.
+```{r}
+d7.tf2 = trendfilter(d[,7],ord = 2)
+d7.tf2.cv = cv.trendfilter(d7.tf2) # performs 5-fold CV
+plot(d[,1],d[,7],xlab="cell cycle",ylab="expression")
+lines(d[,1],predict(d7.tf2, d7.tf2.cv$lambda.min)$fit,col=3,lwd=3)
+```
+
+
+## Wavelets 
+
+Here we will apply wavelets to smooth these data.
 
 To apply wavelets we need the data to be a power of 2.
 Also we need the data to be ordered in terms of theta.
 We'll subset the data to 512 elements here, and order it:
 ```{r}
-# order the data
-o = order(d[,1])
-d = d[o,]
-plot(d$theta)
-
 # subset the data
 set.seed(1)
 subset = sort(sample(1:nrow(d),512,replace=FALSE))

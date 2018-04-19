@@ -1,0 +1,37 @@
+---
+title: "Run svd on digits data"
+author: "Matthew Stephens"
+date: "April 17, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Here we read in the "zipcode" training data, and extract the 2s and 3s.
+```{r}
+z = read.table("data/zip.train.txt")
+sub = (z[,1] == 2) | (z[,1]==3)
+z23 = as.matrix(z[sub,])
+```
+
+Now we run svd (excluding the first column which are the labels)
+```{r}
+z23.svd = svd(z23[,-1])
+```
+
+
+Plot the first two two singular vectors, colored by group,
+we see the second sv separates the groups reasonably well.
+```{r}
+plot(z23.svd$u[,1],z23.svd$u[,2],col=z23[,1])
+```
+
+And a histogram suggests a mixture of two Gaussians might be 
+a reasonable start:
+```{r}
+hist(z23.svd$u[,2],breaks=seq(-0.07,0.07,length=20))
+```
+
+

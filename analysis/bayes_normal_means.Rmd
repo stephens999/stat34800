@@ -1,0 +1,72 @@
+---
+title: "Fully Bayes Normal Means"
+author: "Matthew Stephens"
+date: "May 3, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background
+
+In a previous homework you implemented Empirical Bayes (EB) shrinkage for the normal means problem with a normal prior. 
+That is we have data $X=(X_1,\dots,X_n)$:
+$$X_j | \theta_j, s_j \sim N(\theta_j, s_j^2)$$
+and assume 
+$$\theta_j | \mu,\sigma \sim N(\mu,\sigma^2) \quad j=1,\dots,n.$$ 
+
+The EB approach involved two steps:
+
+  1. Estimates $\mu, \sigma$ by maximizing the log-likelihood $l(\mu,\sigma) =\log p(X | \mu,\sigma)$.
+  2. Compute the posteriore distribution $p(\theta_j | \hat\mu,\hat\sigma)$. 
+
+The EB approach can be criticized for ignoring uncertainty in the estimates of $\mu$ and $\sigma$. Here we will use MCMC to do a fully Bayesian analysis that takes account of this uncertainty. 
+
+## Fully Bayes approach
+
+To make this easier we will first re-parameterize to use $\eta = log(\sigma)$, so $\eta$ can take any value on the real line.
+
+We will use a uniform prior on $(\mu,\eta)$, $p(\mu,\eta) \propto 1$ in the
+range $\mu = [-a,a]$ and $\eta \in [-b,b]$. You can use $a=10^6$ and $b=10$.
+(Because $\eta$ is on the log scale, $b=10$ covers a wide range of possible standard deviations).
+Thus the posterior distribution on \(\mu,\eta\) is given by 
+$$p(\mu,\eta | X) \propto p(X | \mu, \eta) I(|\mu|<a) I(|\eta|<b)$$ 
+
+where $I$ denotes an indicator function.
+
+1. Modify your log-likelihood computation code from your previous homework to compute the log-likelihood for $(\mu,\eta)$ given data $X$ (and standard deviations $s$).
+
+2. Use this to implement a MH algorithm to sample from $\pi(\mu,\eta) \propto p(X | mu,\eta)$. Note: In computing the MH acceptance probability you need to compute a ratio $L_1/L_2$. For numerical stability reasons you should always compute this ratio by $\exp(l_1 - l_2)$ where $l_i = \log(L_i)$ rather than directly computing $L_1$ and $L_2$ and then computing their ratio. (If both $L_1$ and $L_2$ are very small, they may be 0 to machine precision, which causes problems if you try to compute $L_1/L_2$ directly.)
+
+3. Apply your MH algorithm to simulated data where you know the answer.
+Run you MH algorithm multiple (at least 3) times from multiple different initializations.  For each run plot how the value of $log \pi(\mu^t,\eta^t)$ 
+changes with iteration $t$. You should see that it starts from a low value
+(assuming you initialized to something that is not consistent with the data) and then gradually increases until it settles down to a "steady state" behavior.
+Use these plots to help decide how many iterations to run your algorithm
+to get reliable results (ie so results from different runs look similar) and how many iterations to discard as "burn-in". Compare your posterior distributions 
+of $\mu$ and $\eta$ with the true values you simulated (the distributions should cover the true values unless you did something wrong or are unlucky!)
+
+4. Repeat part 3 for the "8 schools data"  [here](http://andrewgelman.com/2014/01/21/everything-need-know-bayesian-statistics-learned-eight-schools/) (omitting the comparisons with the true values, which of course you do not know here).
+
+5. Note that the posterior distribution on $\theta_j$ is given by:
+$$p(\theta_j | X) = \int p(\theta_j | X, \mu, \eta)p(\mu,\eta | X)$$
+which is the expectation of $p(\theta_j | X, \mu, \eta)$ over the posteriore $p(\mu,\eta | X)$. Computing posterior distributions
+like this is sometimes referred to as
+"integrating out uncertainty in" $\mu,\eta$. (It is useful to compare
+this with the EB approach of just plugging in
+the maximum likelihood estimates and computing $p(\theta_j | X, \hat{\mu},\hat{\eta})$.  Notice that the two will produce similar results
+if the posterior distribution $p(\mu,\eta | X)$ is very concentrated around the mle.)
+
+Given $T$ samples $\mu^1,\eta^1,\dots,\mu^T, \eta^T$ from the posterior
+distribution $p(\mu,\eta | X)$ you can approximate this expectation by
+$$p(\theta_j | X) \approx (1/T)\sum_t p(\theta_j | X, \mu^t, \eta^t).$$
+So you can approximate the posterior mean by
+$$E(\theta_j | X) \approx (1/T)\sum_t E(\theta_j | X, \mu^t, \eta^t).$$
+
+
+Using the same idea, given an expression to approximate the posterior second moment $E(\theta^2_j | X)$, and so approximate the posterior variance
+(and hence posterior standard deviation).
+
+6. Use the results from 4 and 5 to compute an approximate posterior mean and posterior standard deviation for $\theta_j$ for each school in the 8 schools data. Compare and contrast your results with the EB results and also the discussion in the initial blog-post [here](http://andrewgelman.com/2014/01/21/everything-need-know-bayesian-statistics-learned-eight-schools/)

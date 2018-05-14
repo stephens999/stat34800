@@ -1,0 +1,75 @@
+---
+title: "Variable selection regression example"
+author: "Matthew Stephens"
+date: "May 14, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Simulation
+
+We will simulate a very simple example, where there
+are two very similar variables that are hard to choose
+between (as well as a bunch of other "null" variables.)
+
+```{r}
+set.seed(1)
+n = 100
+p = 10
+x = matrix(rnorm(n*p),nrow=n)
+x = cbind(x[,1]+rnorm(n,0,0.0001),x) # add a column to x very similar to first column
+y = x[,1] + rnorm(n)
+```
+
+Try different version of penalized regrssion (glmnet).
+First LASSO. Notice that there is some variation in results
+of CV as it is random... so I ran it 5 times.
+```{r}
+glmnet_fit = function(x,y,alpha){
+  y.fit = glmnet::glmnet(x,y,alpha=alpha)
+  y.cv  = glmnet::cv.glmnet(x,y,alpha=alpha,lambda = y.fit$lambda)
+  return(list(bhat=coef(y.fit,s = y.cv$lambda.min)[,1],y.fit=y.fit,y.cv=y.cv))
+}
+for(i in 1:5){
+  print(glmnet_fit(x,y,1)$b)
+}
+
+
+```
+
+I was puzzled here because I had set it up so
+that the first two columns were almost indistinguishable.
+So I was suprised it always chose the first column.
+It turns out this is a numerical issue with the glmnet implementation.
+When two columns are very highly correlated it tends to favor the first.
+We can see this by swapping the first two columns of x:
+```{r}
+temp = x[,2]
+x[,2] = x[,1]
+x[,1] = temp
+
+for(i in 1:5){
+  print(glmnet_fit(x,y,1)$b)
+}
+```
+
+
+Now try a Bayesian MCMC based approach.
+BGLR fits this model by MCMC.
+Unfortunately it does not seem to output samples from the posterior distribution on $b$ - only point estimates on $b$. Which means it is hard to see some of the things I would like to look at.  (Note that this software does not include an intercept by default.. so the coefficients here do not include intercept.)
+```{r}
+fit=BGLR::BGLR(y=y,ETA=list( list(X=x,model='BayesC')), saveAt="temp_",nIter = 10000,verbose=FALSE)
+bhat = fit$ETA[[1]]$b
+bhat
+```
+
+Notice that most of the weight is on the first two variables (makes sense!)
+
+My guess is that the posterior samples will mostly
+have one or other of the first two variables included. 
+And that other variables will not often be included. However I can't show that yet. I am still looking for a simple R package that will help me illustrate this better.
+
+

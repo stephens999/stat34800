@@ -341,7 +341,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/4b2b2353b2e7bb55b80d08e293fd8f5bf243346c" target="_blank">4b2b235</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/225f991bff25554a3d7fae1b31f8917d1147696f" target="_blank">225f991</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -409,6 +409,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/225f991bff25554a3d7fae1b31f8917d1147696f/analysis/hmm_exercise.Rmd" target="_blank">225f991</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-19
+</td>
+<td style="text-align:left;">
+workflowr::wflow_publish(“hmm_exercise.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephens999/stat34800/0c76a28421f5140b0f972dd1ecc65b9e82c69244/docs/hmm_exercise.html" target="_blank">0c76a28</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-19
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/stephens999/stat34800/blob/4b2b2353b2e7bb55b80d08e293fd8f5bf243346c/analysis/hmm_exercise.Rmd" target="_blank">4b2b235</a>
 </td>
 <td style="text-align:left;">
@@ -426,7 +460,7 @@ workflowr::wflow_publish(“hmm_exercise.Rmd”)
 </ul>
 <p></details></p>
 <hr />
-<p>Here we simulate a simple HMM with two states, <span class="math inline">\(Z_t \in \{1,2\}\)</span> that represent two different genetic populations. The data <span class="math inline">\(X_t\)</span> is genetic data at locus (position) <span class="math inline">\(t\)</span>, which we will assume are 0 or 1. So the emission distribution at position <span class="math inline">\(t\)</span> in state <span class="math inline">\(k\)</span> is Bernoulli(<span class="math inline">\(p_{kt}\)</span>) where <span class="math inline">\(p_k\)</span> is the frequency of the 1 allele at position <span class="math inline">\(t\)</span> in population <span class="math inline">\(k\)</span>.</p>
+<p>Here we simulate a simple HMM with two states, <span class="math inline">\(Z_t \in \{1,2\}\)</span> that represent two different genetic populations. The data <span class="math inline">\(X_t\)</span> is genetic data at locus (position) <span class="math inline">\(t\)</span>, which we will assume are 0 or 1. So the emission distribution at position <span class="math inline">\(t\)</span> in state <span class="math inline">\(k\)</span> is Bernoulli(<span class="math inline">\(p_{kt}\)</span>) where <span class="math inline">\(p_{kt}\)</span> is the frequency of the 1 allele at position <span class="math inline">\(t\)</span> in population <span class="math inline">\(k\)</span>.</p>
 <p>The transition matrix for the Markov chain is symmetric, with probability 0.9 of staying in the same state, and 0.1 of switching at each step.</p>
 <p>Here is some code to simulate from this:</p>
 <pre class="r"><code>set.seed(1)

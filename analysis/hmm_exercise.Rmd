@@ -1,0 +1,59 @@
+---
+title: "hmm homework"
+author: "Matthew Stephens"
+date: "5/19/2018"
+output: html_document
+---
+
+Here we simulate a simple HMM with two states, $Z_t \in \{1,2\}$ that represent two different
+genetic populations. The data $X_t$ is genetic data at locus (position) $t$, which we will assume 
+are 0 or 1. So the emission distribution at position $t$ in state $k$ is Bernoulli($p_{kt}$)
+where $p_k$ is the frequency of the 1 allele at position $t$ in population $k$.
+
+The transition matrix for the Markov chain is symmetric, with probability 0.9 of staying in the same state, and 0.1 of switching at each step.
+
+Here is some code to simulate from this:
+```{r}
+set.seed(1)
+T = 1000
+K = 2
+P = rbind(c(0.9,0.1),c(0.1,0.9))
+
+# simulate the matrix of allele frequencies in each of the K populations at each of T loci
+p = matrix(runif(K*T),nrow=K,ncol=T)
+
+# Simulate the latent (Hidden) Markov states
+Z = rep(0,T)
+Z[1] = 1
+for(t in 1:(T-1)){
+  Z[t+1] = sample(K, size=1, prob=P[Z[t],])
+}
+
+# Work out the corresponding bernoulli probability for each state
+prob = rep(0,T)
+for(i in 1:T){
+  prob[i] = p[Z[i],i]
+}
+
+# Simulate the emitted/observed values
+X= rbinom(n=T,size=1,prob=prob)
+```
+
+
+# Exercise
+
+- Implement the forward and backwards algorithm to "decode" this HMM: that is to compute 
+$\Pr(Z_t=k|X_1,\dots,X_T)$ for each $t$. Note that because of the longer length of this Markov chain
+you will need to do some normalizing of the forwards and backwards probabilities to 
+avoid numerical errors.
+
+- Compute the error rate (compared with the truth) if you assign each $Z_t$ to its most probable value. 
+
+- Now imagine you did not know the true values for $Z$. Explain how you would estimate the
+error rate directly from the output of the forward-backwards calculation. Compare this estimate with 
+that obtained when you did know the truth. (Hint: this is a bit like estimating a False Discovery Rate
+from the Empirical Bayes Normal Means output)
+
+
+
+

@@ -8,7 +8,7 @@ output: html_document
 Here we simulate a simple HMM with two states, $Z_t \in \{1,2\}$ that represent two different
 genetic populations. The data $X_t$ is genetic data at locus (position) $t$, which we will assume 
 are 0 or 1. So the emission distribution at position $t$ in state $k$ is Bernoulli($p_{kt}$)
-where $p_k$ is the frequency of the 1 allele at position $t$ in population $k$.
+where $p_{kt}$ is the frequency of the 1 allele at position $t$ in population $k$.
 
 The transition matrix for the Markov chain is symmetric, with probability 0.9 of staying in the same state, and 0.1 of switching at each step.
 

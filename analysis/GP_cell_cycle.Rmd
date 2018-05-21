@@ -1,0 +1,59 @@
+---
+title: "GP_cell_cycle"
+author: "Matthew Stephens"
+date: "5/21/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Here I'm going to try fitting a GP to the cell cycle data:
+
+```{r}
+d = readRDS("data/cyclegenes.rds")
+dim(d)
+```
+
+Recall each row is a single cell. The first column ("theta") is an estimate
+of where that cell is in the cell cycle, from 0 to 2pi. (Note
+that we don't know what stage of the cell cycle each point in the
+interval corresponds to - so there is no guarantee that 0 is the
+"start" of the cell cycle. Also, because of the way these data were created we don't know which direction the cell cycle is going - it could be forward or backward.) Then there are 10 columns corresponding
+to 10 different genes.
+
+I'm going to order the rows by cell cycle (theta, first column) as this will make
+things much easier later.
+```{r}
+# order the data
+o = order(d[,1])
+d = d[o,]
+plot(d$theta)
+```
+
+
+
+# Trend filtering
+
+Remember before we tried trend filtering on these data...
+
+```{r}
+library(genlasso)
+d2.tf = trendfilter(d[,2],ord = 1)
+d2.tf.cv = cv.trendfilter(d2.tf) # performs 5-fold CV
+plot(d[,1],d[,2],xlab="cell cycle",ylab="expression")
+lines(d[,1],predict(d2.tf, d2.tf.cv$lambda.min)$fit,col=2,lwd=3)
+```
+
+I found GP_fit took a while, so I subsampled to 200 to try to reduce time. Also it seemed to want $x$ in the range $[0,1]$ so I normalized the $x$ values for it.
+```{r}
+subset = sort(sample(1:nrow(d),200))
+x = d[subset,1]
+y = d[subset,2]
+x = x/max(x) # normalize to be in 0,1
+y.gpfit = GPfit::GP_fit(x,y)
+plot(x,y)
+lines(x,predict(y.gpfit)$Y_hat,col=2)
+```
+

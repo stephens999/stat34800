@@ -341,7 +341,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/0efb0a37c884fddb9d89f59cdcef96c2151d891c" target="_blank">0efb0a3</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/f4a663d537a123e49f540a13b5988d05d4028cd8" target="_blank">f4a663d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -409,6 +409,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/f4a663d537a123e49f540a13b5988d05d4028cd8/analysis/GP_example.Rmd" target="_blank">f4a663d</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+<td style="text-align:left;">
+workflowr::wflow_publish(“GP_example.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephens999/stat34800/4d2b236e4682a4bb70a376f8b477d894c699c7c3/docs/GP_example.html" target="_blank">4d2b236</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/stephens999/stat34800/blob/0efb0a37c884fddb9d89f59cdcef96c2151d891c/analysis/GP_example.Rmd" target="_blank">0efb0a3</a>
 </td>
 <td style="text-align:left;">
@@ -437,12 +471,72 @@ Sigma_SE = exp(-d^2/(2*l^2)) # squared exponential kernel
 y = mvtnorm::rmvnorm(1,sigma=Sigma_SE)
 plot(x,y)</code></pre>
 <p><img src="figure/GP_example.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/4d2b236e4682a4bb70a376f8b477d894c699c7c3/docs/figure/GP_example.Rmd/unnamed-chunk-1-1.png" target="_blank">4d2b236</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Try making the covariance decay faster with distance:</p>
 <pre class="r"><code>l = 0.1
 Sigma_SE = exp(-d^2/(2*l^2)) # squared exponential kernel
 y = mvtnorm::rmvnorm(1,sigma=Sigma_SE)
 plot(x,y)</code></pre>
 <p><img src="figure/GP_example.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/4d2b236e4682a4bb70a376f8b477d894c699c7c3/docs/figure/GP_example.Rmd/unnamed-chunk-2-1.png" target="_blank">4d2b236</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Here is a plot of five different simulations:</p>
 <pre class="r"><code>plot(x,y,type=&quot;l&quot;,ylim=c(-3,3))
 for(i in 1:4){
@@ -450,6 +544,36 @@ for(i in 1:4){
   lines(x,y,col=i+1)
 }</code></pre>
 <p><img src="figure/GP_example.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-3-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/4d2b236e4682a4bb70a376f8b477d894c699c7c3/docs/figure/GP_example.Rmd/unnamed-chunk-3-1.png" target="_blank">4d2b236</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="the-ou-covariance-function" class="section level1">
 <h1>The OU covariance function:</h1>
@@ -463,6 +587,36 @@ for(i in 1:4){
   lines(x,y,col=i+1)
 }</code></pre>
 <p><img src="figure/GP_example.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/4d2b236e4682a4bb70a376f8b477d894c699c7c3/docs/figure/GP_example.Rmd/unnamed-chunk-4-1.png" target="_blank">4d2b236</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="matern-covariance-function" class="section level1">
 <h1>Matern covariance function</h1>
@@ -480,6 +634,69 @@ for(i in 1:4){
   lines(x,y,col=i+1)
 }</code></pre>
 <p><img src="figure/GP_example.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/4d2b236e4682a4bb70a376f8b477d894c699c7c3/docs/figure/GP_example.Rmd/unnamed-chunk-5-1.png" target="_blank">4d2b236</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="eigen-decompositions" class="section level1">
+<h1>Eigen-decompositions</h1>
+<p>Recall that every covariance matrix <span class="math inline">\(\Sigma\)</span> has an eigen-decomposition of the form: <span class="math display">\[\Sigma = \sum_i \lambda_i v_i v_i&#39; \]</span> where the <span class="math inline">\(v_i\)</span> are the eigenvectors of <span class="math inline">\(\Sigma\)</span> and <span class="math inline">\(\lambda_i\)</span> are the corresponding eigenvalues.</p>
+<p>Here we plot the first few eigenvectors of the different covariance matrices.</p>
+<p>For the squared exponential:</p>
+<pre class="r"><code>e_SE = eigen(Sigma_SE)
+plot(e_SE$vectors[,1],type=&quot;l&quot;,ylim=c(-.2,.2),main=&quot;first few eigenvectors of SE covariance&quot;)
+for(i in 1:4){
+  lines(e_SE$vectors[,i],col=i)
+}</code></pre>
+<p><img src="figure/GP_example.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>For the OU:</p>
+<pre class="r"><code>e_OU = eigen(Sigma_OU)
+plot(e_OU$vectors[,1],type=&quot;l&quot;,ylim=c(-.2,.2),main=&quot;first few eigenvectors of OU covariance&quot;)
+for(i in 1:4){
+  lines(e_OU$vectors[,i],col=i)
+}</code></pre>
+<p><img src="figure/GP_example.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>And here are the 30th eigenvectors in each case</p>
+<pre class="r"><code>plot(e_SE$vectors[,30],type=&quot;l&quot;,ylim=c(-.2,.2))
+lines(e_OU$vectors[,30],col=2,ylim=c(-.2,.2))</code></pre>
+<p><img src="figure/GP_example.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>So the eigenvectors are kind of “similar” in each case. (There is a reason for this: the matrices are close to “circulant” and all <span class="math inline">\(n \times n\)</span> circulant matries have the same eigenvectors, which are the columns of the discrete Fourier transform matrix).</p>
+<p>Notice how the eigenvalues are very different.</p>
+<pre class="r"><code>plot(e_SE$values,type=&quot;l&quot;,main=&quot;eigenvalues of SE (black) and OU (red)&quot;)
+lines(e_OU$values,col=2)</code></pre>
+<p><img src="figure/GP_example.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Especially if we look closely at the small eigenvalues:</p>
+<pre class="r"><code>plot(e_SE$values,type=&quot;l&quot;,ylim=c(0,0.4),main=&quot;eigenvalues of SE (black) and OU (red)&quot;)
+lines(e_OU$values,col=2)</code></pre>
+<p><img src="figure/GP_example.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Note: the higher eigenvalues of <span class="math inline">\(\Sigma_{SE}\)</span> are very close to machine precision, so the corresponding eigenvectors should probably not be trusted!</p>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>

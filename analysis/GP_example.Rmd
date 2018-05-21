@@ -1,0 +1,76 @@
+---
+title: "Gaussian process"
+author: "Matthew Stephens"
+date: "5/21/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Simulate Gaussian Process
+
+Here we simulate a GP with squared exponential kernel:
+
+```{r}
+set.seed(1)
+x = seq(0,1,length=100)
+d = abs(outer(x,x,"-")) # compute distance matrix, d_{ij} = |x_i - x_j|
+l = 1 # length scale
+Sigma_SE = exp(-d^2/(2*l^2)) # squared exponential kernel
+y = mvtnorm::rmvnorm(1,sigma=Sigma_SE)
+plot(x,y)
+```
+
+Try making the covariance decay faster with distance:
+```{r}
+l = 0.1
+Sigma_SE = exp(-d^2/(2*l^2)) # squared exponential kernel
+y = mvtnorm::rmvnorm(1,sigma=Sigma_SE)
+plot(x,y)
+```
+
+Here is a plot of five different simulations:
+```{r}
+plot(x,y,type="l",ylim=c(-3,3))
+for(i in 1:4){
+  y = mvtnorm::rmvnorm(1,sigma=Sigma_SE)
+  lines(x,y,col=i+1)
+}
+```
+
+# The OU covariance function:
+
+Here we use the covariance function for 
+what is known as the "Ornstein--Uhlenbeck process",
+which you can think of as a modified Brownian motion,
+where the modification tends to pull the process back towards 0.
+(Unmodified BM tends to wander progressively further from 0.)
+
+Notice
+it produces much "rougher" functions (actually not differentiable)!
+```{r}
+Sigma_OU = exp(-d/l) # OU kernel
+y = mvtnorm::rmvnorm(1,sigma=Sigma_OU)
+plot(x,y,type="l",ylim=c(-3,3))
+for(i in 1:4){
+  y = mvtnorm::rmvnorm(1,sigma=Sigma_OU)
+  lines(x,y,col=i+1)
+}
+```
+
+
+# Matern covariance function
+
+```{r}
+library("geoR")
+Sigma_M = matern(d,phi=l,kappa=1) 
+y = mvtnorm::rmvnorm(1,sigma=Sigma_M)
+plot(x,y,type="l",ylim=c(-3,3))
+for(i in 1:4){
+  y = mvtnorm::rmvnorm(1,sigma=Sigma_M)
+  lines(x,y,col=i+1)
+}
+```
+

@@ -74,3 +74,58 @@ for(i in 1:4){
 }
 ```
 
+
+# Eigen-decompositions
+
+Recall that every covariance matrix $\Sigma$ has an eigen-decomposition of the form:
+$$\Sigma = \sum_i \lambda_i v_i v_i' $$
+where the $v_i$ are the eigenvectors of $\Sigma$ and $\lambda_i$ 
+are the corresponding eigenvalues.
+
+Here we plot the first few eigenvectors of the different covariance
+matrices.
+
+For the squared exponential:
+```{r}
+e_SE = eigen(Sigma_SE)
+plot(e_SE$vectors[,1],type="l",ylim=c(-.2,.2),main="first few eigenvectors of SE covariance")
+for(i in 1:4){
+  lines(e_SE$vectors[,i],col=i)
+}
+```
+
+For the OU:
+```{r}
+e_OU = eigen(Sigma_OU)
+plot(e_OU$vectors[,1],type="l",ylim=c(-.2,.2),main="first few eigenvectors of OU covariance")
+for(i in 1:4){
+  lines(e_OU$vectors[,i],col=i)
+}
+```
+
+And here are the 30th eigenvectors in each case
+```{r}
+plot(e_SE$vectors[,30],type="l",ylim=c(-.2,.2))
+lines(e_OU$vectors[,30],col=2,ylim=c(-.2,.2))
+```
+
+So the eigenvectors are kind of "similar" in each case. 
+(There is a reason for this: the matrices are close
+to "circulant" and all $n \times n$ circulant matries have the same eigenvectors, which are the columns of the discrete Fourier transform matrix).
+
+
+Notice how the eigenvalues are very different.
+```{r}
+plot(e_SE$values,type="l",main="eigenvalues of SE (black) and OU (red)")
+lines(e_OU$values,col=2)
+```
+
+Especially if we look closely at the small eigenvalues:
+```{r}
+plot(e_SE$values,type="l",ylim=c(0,0.4),main="eigenvalues of SE (black) and OU (red)")
+lines(e_OU$values,col=2)
+```
+
+Note: the higher eigenvalues of $\Sigma_{SE}$ are very close to machine precision, so the corresponding eigenvectors should probably not be trusted!
+
+

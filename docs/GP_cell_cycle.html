@@ -341,7 +341,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/ec4ff3ab88478f1d771bd9e7df4119716a18689d" target="_blank">ec4ff3a</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/8304e29ab20605126c7f7721a71d6aac05d4403e" target="_blank">8304e29</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -409,6 +409,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/8304e29ab20605126c7f7721a71d6aac05d4403e/analysis/GP_cell_cycle.Rmd" target="_blank">8304e29</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+<td style="text-align:left;">
+workflowr::wflow_publish(“GP_cell_cycle.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephens999/stat34800/1ad7db787f98eaaaa980dfa9d7618d9dd7eb817f/docs/GP_cell_cycle.html" target="_blank">1ad7db7</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/stephens999/stat34800/blob/ec4ff3ab88478f1d771bd9e7df4119716a18689d/analysis/GP_cell_cycle.Rmd" target="_blank">ec4ff3a</a>
 </td>
 <td style="text-align:left;">
@@ -427,7 +461,7 @@ workflowr::wflow_publish(“GP_cell_cycle.Rmd”)
 <p></details></p>
 <hr />
 <p>Here I’m going to try fitting a GP to the cell cycle data:</p>
-<pre class="r"><code>d = readRDS(&quot;data/cyclegenes.rds&quot;)
+<pre class="r"><code>d = readRDS(&quot;../data/cyclegenes.rds&quot;)
 dim(d)</code></pre>
 <pre><code>[1] 990  11</code></pre>
 <p>Recall each row is a single cell. The first column (“theta”) is an estimate of where that cell is in the cell cycle, from 0 to 2pi. (Note that we don’t know what stage of the cell cycle each point in the interval corresponds to - so there is no guarantee that 0 is the “start” of the cell cycle. Also, because of the way these data were created we don’t know which direction the cell cycle is going - it could be forward or backward.) Then there are 10 columns corresponding to 10 different genes.</p>
@@ -437,6 +471,36 @@ o = order(d[,1])
 d = d[o,]
 plot(d$theta)</code></pre>
 <p><img src="figure/GP_cell_cycle.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/1ad7db787f98eaaaa980dfa9d7618d9dd7eb817f/docs/figure/GP_cell_cycle.Rmd/unnamed-chunk-2-1.png" target="_blank">1ad7db7</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <div id="trend-filtering" class="section level1">
 <h1>Trend filtering</h1>
 <p>Remember before we tried trend filtering on these data…</p>
@@ -460,6 +524,36 @@ Attaching package: &#39;igraph&#39;</code></pre>
 <pre class="r"><code>plot(d[,1],d[,2],xlab=&quot;cell cycle&quot;,ylab=&quot;expression&quot;)
 lines(d[,1],predict(d2.tf, d2.tf.cv$lambda.min)$fit,col=2,lwd=3)</code></pre>
 <p><img src="figure/GP_cell_cycle.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-3-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/1ad7db787f98eaaaa980dfa9d7618d9dd7eb817f/docs/figure/GP_cell_cycle.Rmd/unnamed-chunk-3-1.png" target="_blank">1ad7db7</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>I found GP_fit took a while, so I subsampled to 200 to try to reduce time. Also it seemed to want <span class="math inline">\(x\)</span> in the range <span class="math inline">\([0,1]\)</span> so I normalized the <span class="math inline">\(x\)</span> values for it.</p>
 <pre class="r"><code>subset = sort(sample(1:nrow(d),200))
 x = d[subset,1]
@@ -469,6 +563,36 @@ y.gpfit = GPfit::GP_fit(x,y)
 plot(x,y)
 lines(x,predict(y.gpfit)$Y_hat,col=2)</code></pre>
 <p><img src="figure/GP_cell_cycle.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/1ad7db787f98eaaaa980dfa9d7618d9dd7eb817f/docs/figure/GP_cell_cycle.Rmd/unnamed-chunk-4-1.png" target="_blank">1ad7db7</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>

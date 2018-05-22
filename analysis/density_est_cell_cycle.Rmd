@@ -2,7 +2,7 @@
 title: "histogram for cell cycle"
 author: "Matthew Stephens"
 date: "April 11, 2018"
-output: html_document
+output: workflowr::wflow_html
 ---
 
 ```{r setup, include=FALSE}
@@ -101,17 +101,21 @@ So now we can estimate the density
 ```{r}
 x.dens = density(x)
 hist(x,breaks = seq(-2*pi, 4*pi,length=100),probability=TRUE)
+abline(v=0,col=2)
+abline(v=2*pi,col=2)
 lines(x.dens$x,x.dens$y,col=2)
 ```
 
-Also yuk!! I had to experiment with bw to get a nicer plot....
+Also yuk!! I had to experiment with the parameter `bw` to get a nicer plot....
 ```{r}
 x.dens = density(x,bw=0.2)
 hist(x,breaks = seq(-2*pi, 4*pi,length=100),probability=TRUE)
+abline(v=0,col=2)
+abline(v=2*pi,col=2)
 lines(x.dens$x,x.dens$y,col=3)
 ```
 
-I now could get a nice density esitmate in the range 0 to 2pi by just truncating and renormalizing to have area 1.
+I now could get a nice density estimate in the range 0 to 2pi by just truncating and renormalizing to have area 1.
 
 
 

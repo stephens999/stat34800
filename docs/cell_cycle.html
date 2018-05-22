@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Matthew Stephens" />
+
+
+<title>Cell cycle genes</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">stat34800</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Cell cycle genes</h1>
+<h4 class="author"><em>Matthew Stephens</em></h4>
+<h4 class="date"><em>April 9, 2018</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-05-21</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20180411)</code> </summary></p>
+<p>The command <code>set.seed(20180411)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/d63b9eb18c60c6f2b73c73ea7aec431d44706379" target="_blank">d63b9eb</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    .sos/
+    Ignored:    exams/
+    Ignored:    temp/
+
+Untracked files:
+    Untracked:  analysis/neanderthal.Rmd
+    Untracked:  analysis/pca_cell_cycle.Rmd
+    Untracked:  analysis/ridge_mle.Rmd
+    Untracked:  data/reduced.chr12.90-100.data.txt
+    Untracked:  data/reduced.chr12.90-100.snp.txt
+    Untracked:  docs/figure/pca_cell_cycle.Rmd/
+    Untracked:  homework/fdr.aux
+    Untracked:  homework/fdr.log
+    Untracked:  tempETA_1_parBayesC.dat
+    Untracked:  temp_ETA_1_parBayesC.dat
+    Untracked:  temp_mu.dat
+    Untracked:  temp_varE.dat
+    Untracked:  tempmu.dat
+    Untracked:  tempvarE.dat
+
+Unstaged changes:
+    Modified:   analysis/eb_vs_soft.Rmd
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/d63b9eb18c60c6f2b73c73ea7aec431d44706379/analysis/cell_cycle.Rmd" target="_blank">d63b9eb</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-21
+</td>
+<td style="text-align:left;">
+workflowr::wflow_publish(“svd_zip.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/3d82c1163451af38fc449e31e7903c607c0e8fae/analysis/cell_cycle.Rmd" target="_blank">3d82c11</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-04-11
+</td>
+<td style="text-align:left;">
+update cell cycle example to include circularity of trend filtering
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/463d7d9f7f735386e830a9d9a8cdbe31ea24038c/analysis/cell_cycle.Rmd" target="_blank">463d7d9</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-04-11
+</td>
+<td style="text-align:left;">
+update to include trend filter
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/8b80a72204e90aa63aceb64d5e66f4813a828772/analysis/cell_cycle.Rmd" target="_blank">8b80a72</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-04-09
+</td>
+<td style="text-align:left;">
+add cell cycle example
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<div id="some-cell-cycle-data" class="section level1">
+<h1>Some Cell Cycle Data</h1>
+<p>The data come from a recent experiment performed in the Gilad lab by Po Tung, in collaboration with Joyce Hsiao and others.</p>
+<p>Since this is an anlaysis in progress, there is a lot we do not know about these data.</p>
+<p>The data are measuring the activity of 10 genes that may or may not be involved in the “cell cycle”, which is the process cells go through as they divide. (We have data on a large number of genes, but Joyce has picked out 10 of them for us to look at.) Each gene is measured in many single cells, and we have some independent (but noisy) measurement of where each cell is in the cell cycle.</p>
+<pre class="r"><code>d = readRDS(&quot;../data/cyclegenes.rds&quot;)
+dim(d)</code></pre>
+<pre><code>[1] 990  11</code></pre>
+<p>Here each row is a single cell. The first column (“theta”) is an estimate of where that cell is in the cell cycle, from 0 to 2pi. (Note that we don’t know what stage of the cell cycle each point in the interval corresponds to - so there is no guarantee that 0 is the “start” of the cell cycle. Also, because of the way these data were created we don’t know which direction the cell cycle is going - it could be forward or backward.) Then there are 10 columns corresponding to 10 different genes.</p>
+<p>I’m going to order the rows by cell cycle (theta, first column) as this will make things much easier later.</p>
+<pre class="r"><code># order the data
+o = order(d[,1])
+d = d[o,]
+plot(d$theta)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here we just plot 8 genes to get a sense for the data:</p>
+<pre class="r"><code>par(mfcol=c(2,2))
+for(i in 1:4){
+  plot(d$theta, d[,(i+1)],pch=&quot;.&quot;,ylab=&quot;gene expression&quot;,xlab=&quot;cell cycle location&quot;)
+}</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfcol=c(2,2))
+for(i in 1:4){
+  plot(d$theta, d[,(i+5)],pch=&quot;.&quot;,ylab=&quot;gene expression&quot;,xlab=&quot;cell cycle location&quot;)
+}</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The question we want to answer is this: which genes show greatest evidence for varying in their expression through the cell cycle? For now what we really want is a filter we can apply to a large number of genes to pick out the ones that look most “interesting”. Later we might want a more formal statistical measure of evidence.</p>
+<p>Our current idea is to try “smoothing” these data, and pick out genes where the change in the mean over theta is most variable (in some sense). The extreme would be if the smoother fits a horizontal line - that indicates no variability with theta, so those genes are not interesting to us.</p>
+</div>
+<div id="trend-filtering" class="section level1">
+<h1>Trend filtering</h1>
+<p>Here we will apply trend filtering to smooth these data. Trend filtering, at its simplest, applies L1 regularization to the changes in mean from one observation to the next. (The extreme would be no changes in any of these means, so a flat line.) It is implemented in the “genlasso” package.</p>
+<pre class="r"><code>library(genlasso)</code></pre>
+<pre><code>Loading required package: MASS</code></pre>
+<pre><code>Loading required package: Matrix</code></pre>
+<pre><code>Loading required package: igraph</code></pre>
+<pre><code>
+Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    decompose, spectrum</code></pre>
+<pre><code>The following object is masked from &#39;package:base&#39;:
+
+    union</code></pre>
+<pre class="r"><code>d2.tf = trendfilter(d[,2],ord = 1)</code></pre>
+<pre><code>Warning: &#39;rBind&#39; is deprecated.
+ Since R version 3.2.0, base&#39;s rbind() should work fine with S4 objects</code></pre>
+<pre class="r"><code>d2.tf.cv = cv.trendfilter(d2.tf) # performs 5-fold CV</code></pre>
+<pre><code>Fold 1 ... Fold 2 ... Fold 3 ... Fold 4 ... Fold 5 ... </code></pre>
+<pre class="r"><code>plot(d[,1],d[,2],xlab=&quot;cell cycle&quot;,ylab=&quot;expression&quot;)
+lines(d[,1],predict(d2.tf, d2.tf.cv$lambda.min)$fit,col=2,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This fit is a bit on the “spiky” side in places. We can get a smoother fit by using a higher order filter. The details are too much to include here, but basically instead of shrinking first order differences it shrinks things that also measure differences with neighbors a bit further apart (2nd order).</p>
+<pre class="r"><code>d2.tf2 = trendfilter(d[,2],ord = 2)
+d2.tf2.cv = cv.trendfilter(d2.tf2) # performs 5-fold CV</code></pre>
+<pre><code>Fold 1 ... Fold 2 ... Fold 3 ... Fold 4 ... Fold 5 ... </code></pre>
+<pre class="r"><code>plot(d[,1],d[,2],xlab=&quot;cell cycle&quot;,ylab=&quot;expression&quot;)
+lines(d[,1],predict(d2.tf, d2.tf.cv$lambda.min)$fit,col=2,lwd=3)
+lines(d[,1],predict(d2.tf2, d2.tf2.cv$lambda.min)$fit,col=3,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>And here we try another gene that maybe shows less evidence for variability.</p>
+<pre class="r"><code>d7.tf2 = trendfilter(d[,7],ord = 2)
+d7.tf2.cv = cv.trendfilter(d7.tf2) # performs 5-fold CV</code></pre>
+<pre><code>Fold 1 ... Fold 2 ... Fold 3 ... Fold 4 ... Fold 5 ... </code></pre>
+<pre class="r"><code>plot(d[,1],d[,7],xlab=&quot;cell cycle&quot;,ylab=&quot;expression&quot;)
+lines(d[,1],predict(d7.tf2, d7.tf2.cv$lambda.min)$fit,col=3,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="dealing-with-the-circularity" class="section level2">
+<h2>Dealing with the circularity</h2>
+<p>Because the <span class="math inline">\(x\)</span> axis here is cyclical, the value of <span class="math inline">\(E(Y|x)\)</span> near <span class="math inline">\(x=0\)</span> should be similar to the value near <span class="math inline">\(x=2pi\)</span>. But trend filtering does not know this. We can encourage this behaviour by duplicating the data using a translation. (Note this is different than reflecting it about the boundaries).</p>
+<p>Here is an example:</p>
+<pre class="r"><code>yy = c(d[,2],d[,2],d[,2]) ## duplicated data
+xx = c(d[,1]-2*pi, d[,1], d[,1]+2*pi) # shifted/translated x coordinates
+
+yy.tf2 = trendfilter(yy,ord = 2)
+yy.tf2.cv = cv.trendfilter(yy.tf2) # performs 5-fold CV</code></pre>
+<pre><code>Fold 1 ... Fold 2 ... Fold 3 ... Fold 4 ... Fold 5 ... </code></pre>
+<pre class="r"><code>plot(xx,yy,xlab=&quot;cell cycle&quot;,ylab=&quot;expression&quot;)
+lines(xx,predict(yy.tf2, yy.tf2.cv$lambda.min)$fit,col=3,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># plot only a single version of data
+include = c(rep(FALSE,length(d[,2])), rep(TRUE, length(d[,2])), rep(FALSE, length(d[,2])))
+plot(xx[include],yy[include],xlab=&quot;cell cycle&quot;,ylab=&quot;expression&quot;, main=&quot;trend filtering with circular fit&quot;)
+lines(xx[include],predict(yy.tf2, yy.tf2.cv$lambda.min)$fit[include],col=3,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="wavelets" class="section level1">
+<h1>Wavelets</h1>
+<p>Here we will apply wavelets to smooth these data.</p>
+<p>To apply wavelets we need the data to be a power of 2. Also we need the data to be ordered in terms of theta. We’ll subset the data to 512 elements here, and order it:</p>
+<pre class="r"><code># subset the data
+set.seed(1)
+subset = sort(sample(1:nrow(d),512,replace=FALSE))
+d.sub = d[subset,]</code></pre>
+<p>Here we do the Haar wavelet by specifying <code>family=&quot;DaubExPhase&quot;,filter.number = 1</code> to the discrete wavelet transform function <code>wd</code>. The plot shows the wavelet transformed values, separately at each resolution.</p>
+<pre class="r"><code>library(&quot;wavethresh&quot;)</code></pre>
+<pre><code>WaveThresh: R wavelet software, release 4.6.8, installed</code></pre>
+<pre><code>Copyright Guy Nason and others 1993-2016</code></pre>
+<pre><code>Note: nlevels has been renamed to nlevelsWT</code></pre>
+<pre class="r"><code>wds &lt;- wd(d.sub[,2],family=&quot;DaubExPhase&quot;,filter.number = 1)
+plot(wds)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] 12.1009 12.1009 12.1009 12.1009 12.1009 12.1009 12.1009 12.1009 12.1009</code></pre>
+<p>To illustrate the idea behind wavelet shrinkage we use the policy “manual” to shrink all the high-resolution coefficients (levels 4-8) to 0.</p>
+<pre class="r"><code>wtd &lt;- threshold(wds, levels = 4:8,  policy=&quot;manual&quot;,value = 99999) 
+plot(wtd) </code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] 12.1009 12.1009 12.1009 12.1009 12.1009 12.1009 12.1009 12.1009 12.1009</code></pre>
+<p>Now undo the wavelet transform on the shrunken coefficients</p>
+<pre class="r"><code>fd &lt;- wr(wtd) #reconstruct
+plot(d.sub$theta,d.sub[,2],xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
+lines(d.sub$theta,fd,col=2,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The estimate here is a bit “jumpy”, due to the use of the Haar wavelet and the rather naive hard thresholding. We can make it less “jumpy” by using a “less step-wise” wavelet basis</p>
+<pre class="r"><code>wds &lt;- wd(d.sub[,2],family=&quot;DaubLeAsymm&quot;,filter.number = 8)
+wtd &lt;- threshold(wds, levels = 4:8,  policy=&quot;manual&quot;,value = 99999) 
+fd &lt;- wr(wtd) #reconstruct
+plot(d.sub$theta,d.sub[,2],xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
+lines(d.sub$theta,fd,col=2,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>What happens if we use an Empirical Bayes thresholding rule?</p>
+<p>The EbayesThresh package essentially solves the EBNM problem, using a prior distribution that is a mixture of a point mass at 0 and a Laplace distribution with rate parameter <span class="math inline">\(a\)</span>: <span class="math display">\[ \pi_0 \delta_0 + (1-\pi_0) DExp(a).\]</span></p>
+<p>Here <code>a=NA</code> tells Ebayesthresh ot estimate <span class="math inline">\(a\)</span>. Notice that the outliers cause “problems”</p>
+<pre class="r"><code>library(&quot;EbayesThresh&quot;)
+wds &lt;- wd(d.sub[,2],family=&quot;DaubLeAsymm&quot;,filter.number = 8)
+wtd &lt;- ebayesthresh.wavelet(wds,a=NA)
+fd &lt;- wr(wtd) #reconstruct
+plot(d.sub$theta,d.sub[,2],xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
+lines(d.sub$theta,fd,col=2,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Try removing the outliers (actually setting them to the mean here), just to see what happens.</p>
+<pre class="r"><code>xx = ifelse(d.sub[,2]&lt;2,mean(d.sub[,2]),d.sub[,2])
+wds &lt;- wd(xx,family=&quot;DaubLeAsymm&quot;,filter.number = 8)
+wtd &lt;- ebayesthresh.wavelet(wds,a=NA)
+fd &lt;- wr(wtd) #reconstruct
+plot(d.sub$theta,xx,xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
+lines(d.sub$theta,fd,col=2,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Notice that estimating <span class="math inline">\(a\)</span> is really important (the default is to set <span class="math inline">\(a=0.5\)</span>):</p>
+<pre class="r"><code>xx = ifelse(d.sub[,2]&lt;2,mean(d.sub[,2]),d.sub[,2])
+wds &lt;- wd(xx,family=&quot;DaubLeAsymm&quot;,filter.number = 8)
+wtd &lt;- ebayesthresh.wavelet(wds)
+fd &lt;- wr(wtd) #reconstruct
+plot(d.sub$theta,xx,xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
+lines(d.sub$theta,fd,col=2,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="dealing-with-the-circularity-1" class="section level2">
+<h2>Dealing with the circularity</h2>
+<p>Note that the default in this particular package (<code>wavethresh</code>) is to assume the data are periodic on their region of definition - that is, circular. So we don’t have to do anything special here. It is taken care of!</p>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.3.2 (2016-10-31)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: OS X El Capitan 10.11.6
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] EbayesThresh_1.5-3 wavethresh_4.6.8   genlasso_1.3      
+[4] igraph_1.2.1       Matrix_1.2-14      MASS_7.3-49       
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_0.12.16      knitr_1.20        whisker_0.3-2    
+ [4] magrittr_1.5      workflowr_1.0.1   pscl_1.5.2       
+ [7] doParallel_1.0.11 SQUAREM_2017.10-1 lattice_0.20-35  
+[10] foreach_1.4.4     ashr_2.2-7        stringr_1.3.0    
+[13] tools_3.3.2       parallel_3.3.2    grid_3.3.2       
+[16] R.oo_1.22.0       git2r_0.21.0      iterators_1.0.9  
+[19] htmltools_0.3.6   yaml_2.1.18       rprojroot_1.3-2  
+[22] digest_0.6.15     codetools_0.2-15  R.utils_2.6.0    
+[25] evaluate_0.10.1   rmarkdown_1.9     stringi_1.1.7    
+[28] backports_1.1.2   R.methodsS3_1.7.1 truncnorm_1.0-7  
+[31] pkgconfig_2.0.1  </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.0.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

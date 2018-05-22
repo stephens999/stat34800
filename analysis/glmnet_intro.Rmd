@@ -2,7 +2,7 @@
 title: "simple simulation for glmnet"
 author: "Matthew Stephens"
 date: "April 5, 2018"
-output: html_document
+output: workflowr::wflow_html
 ---
 
 ```{r setup, include=FALSE}

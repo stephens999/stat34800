@@ -2,7 +2,7 @@
 title: "Cell cycle genes"
 author: "Matthew Stephens"
 date: "April 9, 2018"
-output: html_document
+output: workflowr::wflow_html
 ---
 
 ```{r setup, include=FALSE}

@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Here we read in the "zipcode" training data, and extract the 2s and 3s.
 ```{r}
-z = read.table("data/zip.train.txt")
+z = read.table("../data/zip.train.txt")
 sub = (z[,1] == 2) | (z[,1]==3)
 z23 = as.matrix(z[sub,])
 ```

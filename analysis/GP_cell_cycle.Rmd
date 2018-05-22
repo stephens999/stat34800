@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Here I'm going to try fitting a GP to the cell cycle data:
 
 ```{r}
-d = readRDS("data/cyclegenes.rds")
+d = readRDS("../data/cyclegenes.rds")
 dim(d)
 ```
 

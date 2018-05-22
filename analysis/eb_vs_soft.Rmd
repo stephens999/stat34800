@@ -2,7 +2,7 @@
 title: "shrinkage"
 author: "Matthew Stephens"
 date: "April 9, 2018"
-output: html_document
+output: workflowr::wflow_html
 ---
 
 ```{r setup, include=FALSE}
@@ -27,7 +27,7 @@ are hardly shrunk at all.
 library("ashr")
 library("ebnm")
 x.pn = ebnm_point_normal(x,1)
-plot(x,get_pm(x.pn))
+plot(x,get_pm(x.pn),main="observation (x) vs posterior mean", ylab="posterior mean")
 abline(a=0,b=1,col="red")
 ```
 
@@ -36,7 +36,7 @@ What about soft thresholding?
 soft_thresh = function(x,lambda){
   ifelse(abs(x)>lambda, sign(x)*(abs(x)-lambda), 0)
 }
-plot(x,soft_thresh(x,1.5))
+plot(x,soft_thresh(x,1.5),main="observation (x) vs soft-thresholding estimate (lambda=1.5)",ylab="soft-thresholded estimate")
 abline(a=0,b=1,col="red")
 ```
 
@@ -48,7 +48,7 @@ l = seq(0,5,length=100)
 for(i in 1:100){
   mse[i] = mean((theta-soft_thresh(x,l[i]))^2)
 }
-plot(l,mse,ylim=c(0,1.2))
+plot(l,mse,ylim=c(0,1.2), main="black = no shrinkage; red=Empirical Bayes; points= soft-thresholding", xlab="lambda")
 abline(h=mean((theta-get_pm(x.pn))^2),col="red")
 abline(h=mean((theta-x)^2),col="blue")
 ```

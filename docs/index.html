@@ -216,7 +216,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-05-03</p>
+<p><strong>Last updated:</strong> 2018-05-23</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -225,7 +225,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/a39d47cfbc9bfeab1a64a7a33e911a0d22f5a310" target="_blank">a39d47c</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/9dec71512c8fbd47d7915573d93077c02aaeb1c7" target="_blank">9dec715</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -234,18 +234,24 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    .sos/
     Ignored:    exams/
+    Ignored:    temp/
 
 Untracked files:
+    Untracked:  analysis/neanderthal.Rmd
     Untracked:  analysis/pca_cell_cycle.Rmd
     Untracked:  analysis/ridge_mle.Rmd
+    Untracked:  data/reduced.chr12.90-100.data.txt
+    Untracked:  data/reduced.chr12.90-100.snp.txt
     Untracked:  docs/figure/pca_cell_cycle.Rmd/
-
-Unstaged changes:
-    Modified:   analysis/cell_cycle.Rmd
-    Modified:   analysis/density_est_cell_cycle.Rmd
-    Modified:   analysis/eb_vs_soft.Rmd
-    Modified:   analysis/eight_schools.Rmd
-    Modified:   analysis/glmnet_intro.Rmd
+    Untracked:  docs/figure/ridge_mle.Rmd/
+    Untracked:  homework/fdr.aux
+    Untracked:  homework/fdr.log
+    Untracked:  tempETA_1_parBayesC.dat
+    Untracked:  temp_ETA_1_parBayesC.dat
+    Untracked:  temp_mu.dat
+    Untracked:  temp_varE.dat
+    Untracked:  tempmu.dat
+    Untracked:  tempvarE.dat
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -279,6 +285,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/stephens999/stat34800/blob/9dec71512c8fbd47d7915573d93077c02aaeb1c7/analysis/index.Rmd" target="_blank">9dec715</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-23
+</td>
+<td style="text-align:left;">
+wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephens999/stat34800/9126819e278945752e0be98ca4c30eae3a9552ea/docs/index.html" target="_blank">9126819</a>
+</td>
+<td style="text-align:left;">
+stephens999
+</td>
+<td style="text-align:left;">
+2018-05-03
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/stephens999/stat34800/blob/051c288578a300fdd683dc8aa1c17973891778c0/analysis/index.Rmd" target="_blank">051c288</a>
 </td>
 <td style="text-align:left;">
@@ -296,7 +336,59 @@ Start workflowr project.
 </ul>
 <p></details></p>
 <hr />
-<p>Welcome to my research website.</p>
+<div id="sparse-regression" class="section level1">
+<h1>Sparse regression</h1>
+<ul>
+<li><p><a href="glmnet_intro.html">Intro to glmnet</a></p></li>
+<li><p><a href="var_select_regression.html">MCMC example and comparison with glmnet</a></p></li>
+<li><p><a href="ridge_mle.html" class="uri">ridge_mle.html</a></p></li>
+</ul>
+</div>
+<div id="smoothing" class="section level1">
+<h1>Smoothing</h1>
+<ul>
+<li><a href="cell_cycle.html">Trend filtering on cell cycle</a></li>
+</ul>
+</div>
+<div id="density-estimation" class="section level1">
+<h1>Density estimation</h1>
+<ul>
+<li><a href="density_est_cell_cycle.html" class="uri">density_est_cell_cycle.html</a></li>
+</ul>
+</div>
+<div id="normal-means" class="section level1">
+<h1>Normal means</h1>
+<ul>
+<li><p><a href="eight_schools.html">Adaptive shrinkage applied to eight schools data</a></p></li>
+<li><p><a href="eb_vs_soft.html">Empirical bayes vs soft thresholding example</a></p></li>
+</ul>
+</div>
+<div id="mcmc" class="section level1">
+<h1>MCMC</h1>
+<ul>
+<li><a href="bayes_normal_means.html">Fully Bayes Normal Means exercise (MCMC)</a></li>
+</ul>
+</div>
+<div id="hmm" class="section level1">
+<h1>HMM</h1>
+<ul>
+<li><a href="hmm_exercise.html">hmm_exercise.htm</a></li>
+</ul>
+</div>
+<div id="gaussian-processes" class="section level1">
+<h1>Gaussian processes</h1>
+<ul>
+<li><a href="GP_example.html" class="uri">GP_example.html</a></li>
+<li><a href="GP_cell_cycle.html" class="uri">GP_cell_cycle.html</a></li>
+</ul>
+</div>
+<div id="svdpca" class="section level1">
+<h1>SVD/PCA</h1>
+<ul>
+<li><a href="svd_zip.html" class="uri">svd_zip.html</a></li>
+<li><a href="pca_cell_cycle.html" class="uri">pca_cell_cycle.html</a></li>
+</ul>
+</div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see

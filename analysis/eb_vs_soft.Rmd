@@ -9,6 +9,23 @@ output: workflowr::wflow_html
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Prerequisites
+
+Before running this you will need to install the packages `ashr` from CRAN and
+`ebnm` from github, by running something like the following code chunk.
+
+```{r, eval=FALSE}
+install.packages("ashr")
+install.packages("devtools")
+devtools::install_github("stephenslab/ebnm")
+```
+
+```{r}
+library("ashr")
+library("ebnm")
+```
+
+
 ## Simulate some data
 
 Here we simulate a pretty sparse situation: 90% sparsity.
@@ -24,8 +41,6 @@ Now do inference under the EBNM model. Notice
 how the small values are shrunk hard, and the big values
 are hardly shrunk at all.
 ```{r}
-library("ashr")
-library("ebnm")
 x.pn = ebnm_point_normal(x,1)
 plot(x,get_pm(x.pn),main="observation (x) vs posterior mean", ylab="posterior mean")
 abline(a=0,b=1,col="red")

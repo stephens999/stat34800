@@ -1,0 +1,176 @@
+---
+title: "ridge cv vs eb"
+author: "Matthew Stephens"
+date: "April 9, 2018"
+output: workflowr::wflow_html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(mnormt) #for multivariate normal density
+library(glmnet)
+```
+
+## Introduction
+
+The idea here was to compare estimation of penalty ($\lambda$) in 
+ridge regression by two methods: Empirical Bayes and CV (in `glmnet`)
+
+
+## Model and log-likelihood
+
+We assume linear regression with residual variance 1 (for simplicity):
+$$Y|b \sim N(Xb, I)$$ 
+
+Ridge regression assumes a normal prior fo $b$:
+$$b \sim N(0, (1/\lambda) I)$$
+where $\lambda$ is the prior precision of each $b_j$.
+
+Note that integrating out $b$ we get:
+$$Y | \lambda \sim N(0, (1/\lambda) XX' + I).$$
+
+The following function computes the log-likelihood for log-$\lambda$ under 
+this model:
+
+
+```{r}
+loglik_rr = function(log_lambda,Y,X){return(mnormt::dmnorm(t(Y),rep(0,length(Y)),varcov = exp(-log_lambda)*(X %*% t(X)) + diag(rep(1,length(Y))),log=TRUE))}
+```
+
+
+## Set up simulations
+
+Here we simulate $Y=Xb+e$ where $b \sim N(0,\sigma=sb)$ (so true precision is $\lambda=1/sb^2$). Note that we
+standardize the columns of $X$ to have norm 1 (`colSums(X^2)=1`) because
+I believe `glmnet` does
+this internally and so I think we need this if we want their lambda value
+to be comparable with the true precision.
+
+```{r}
+simdata = function(n,p,sb){
+  X = matrix(rnorm(n*p),ncol=p)
+  X = scale(X,center=TRUE,scale=TRUE)
+  X = X/sqrt(n-1) # makes colSums = 1
+  b = rnorm(p,sd=sb) 
+  e = rnorm(n,0,sd=1)
+  Y = X %*% b + e
+  return(list(Y=Y,X=X,b=b))
+}
+```
+
+
+# sb=1 (moderate effect)
+
+```{r}
+set.seed(1)
+sb=1
+data = simdata(500,100,sb)
+```
+
+
+Plot log-likelihood for log precision, and true value as vertical line.
+```{r}
+l = seq(-5,5,length=20)
+ll = rep(0,20)
+for(i in 1:length(ll)){ll[i] = loglik_rr(l[i],data$Y,data$X)}
+plot(l,ll,type="l")
+abline(v=log(1/sb^2))
+```
+
+
+
+
+Now fit ridge regression. 
+```{r}
+Y.ridge = glmnet(data$X,data$Y,alpha=0)
+cv.ridge = cv.glmnet(data$X,data$Y,alpha=0)
+plot(cv.ridge)
+```
+ 
+## sb=0.1 (small effect)
+
+Repeat for sb=0.1
+
+```{r}
+set.seed(1)
+sb=0.1
+data = simdata(500,100,sb)
+```
+
+
+Plot log-likelihood for log precision, and true value as vertical line.
+```{r}
+l = seq(-5,5,length=20)
+ll = rep(0,20)
+for(i in 1:length(ll)){ll[i] = loglik_rr(l[i],data$Y,data$X)}
+plot(l,ll,type="l")
+abline(v=log(1/sb^2))
+```
+
+
+
+
+Now fit ridge regression. 
+```{r}
+Y.ridge = glmnet(data$X,data$Y,alpha=0)
+cv.ridge = cv.glmnet(data$X,data$Y,alpha=0)
+plot(cv.ridge)
+```
+
+
+## sb=10 (big effect)
+
+
+```{r}
+set.seed(1)
+sb=10
+data = simdata(500,100,sb)
+```
+
+
+Plot log-likelihood for log precision, and true value as vertical line.
+```{r}
+l = seq(-5,5,length=20)
+ll = rep(0,20)
+for(i in 1:length(ll)){ll[i] = loglik_rr(l[i],data$Y,data$X)}
+plot(l,ll,type="l")
+abline(v=log(1/sb^2))
+```
+
+
+Now fit ridge regression. 
+```{r}
+Y.ridge = glmnet(data$X,data$Y,alpha=0)
+cv.ridge = cv.glmnet(data$X,data$Y,alpha=0)
+plot(cv.ridge)
+```
+
+## sb=2 (intermediate-large effect)
+
+
+```{r}
+set.seed(1)
+sb=2
+data = simdata(500,100,sb)
+```
+
+
+Plot log-likelihood for log precision, and true value as vertical line.
+```{r}
+l = seq(-5,5,length=20)
+ll = rep(0,20)
+for(i in 1:length(ll)){ll[i] = loglik_rr(l[i],data$Y,data$X)}
+plot(l,ll,type="l")
+abline(v=log(1/sb^2))
+```
+
+
+Now fit ridge regression. 
+```{r}
+Y.ridge = glmnet(data$X,data$Y,alpha=0)
+cv.ridge = cv.glmnet(data$X,data$Y,alpha=0)
+plot(cv.ridge)
+```

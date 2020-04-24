@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Matthew Stephens" />
@@ -28,6 +28,14 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -75,9 +83,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -91,7 +97,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -196,8 +201,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -242,6 +245,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -254,48 +258,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -309,6 +274,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -344,8 +315,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -354,6 +323,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -391,7 +370,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jdblischak/workflowr">
+  <a href="https://github.com/stephens999/stat34800">
     <span class="fa fa-github"></span>
      
   </a>
@@ -401,20 +380,13 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<!-- Add a small amount of space between sections. -->
-<style type="text/css">
-div.section {
-  padding-top: 12px;
-}
-</style>
-
 <div class="fluid-row" id="header">
 
 
 
 <h1 class="title toc-ignore">shrinkage</h1>
-<h4 class="author"><em>Matthew Stephens</em></h4>
-<h4 class="date"><em>April 9, 2018</em></h4>
+<h4 class="author">Matthew Stephens</h4>
+<h4 class="date">April 9, 2018</h4>
 
 </div>
 
@@ -430,7 +402,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -439,21 +411,21 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-04-16
+<strong>Last updated:</strong> 2020-04-24
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>stat34800/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.1). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
-<div id="report" class="tab-pane fade">
+<div id="checks" class="tab-pane fade">
 <div id="workflowr-checks" class="panel-group">
 <div class="panel panel-default">
 <div class="panel-heading">
@@ -518,13 +490,31 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree8d23226d19958400a9e33bbd02218a3776fc5ee0targetblank8d23226a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/8d23226d19958400a9e33bbd02218a3776fc5ee0" target="_blank">8d23226</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree8d23226d19958400a9e33bbd02218a3776fc5ee0targetblank8d23226a" class="panel-collapse collapse">
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree63128c96817ad93772b04db35f86be259a94cf6btargetblank63128c9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/63128c96817ad93772b04db35f86be259a94cf6b" target="_blank">63128c9</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree63128c96817ad93772b04db35f86be259a94cf6btargetblank63128c9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephens999/stat34800/tree/63128c96817ad93772b04db35f86be259a94cf6b" target="_blank">63128c9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
@@ -536,16 +526,11 @@ Ignored files:
     Ignored:    temp/
 
 Untracked files:
+    Untracked:  analysis/hmm_final2019.Rmd
     Untracked:  analysis/neanderthal.Rmd
     Untracked:  analysis/pca_cell_cycle.Rmd
-    Untracked:  analysis/ridge_mle.Rmd
     Untracked:  data/reduced.chr12.90-100.data.txt
     Untracked:  data/reduced.chr12.90-100.snp.txt
-    Untracked:  docs/PCA-Tutorial-Intuition_jp.pdf
-    Untracked:  docs/UCLA_IPAM_PopStructure_Tutorial_2018.key
-    Untracked:  docs/figure/pca_cell_cycle.Rmd/
-    Untracked:  docs/figure/ridge_mle.Rmd/
-    Untracked:  docs/strang.pdf
     Untracked:  homework/fdr.aux
     Untracked:  homework/fdr.log
     Untracked:  tempETA_1_parBayesC.dat
@@ -568,7 +553,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/eb_vs_soft.Rmd</code>) and HTML (<code>docs/eb_vs_soft.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -592,6 +577,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/63128c96817ad93772b04db35f86be259a94cf6b/analysis/eb_vs_soft.Rmd" target="_blank">63128c9</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2020-04-24
+</td>
+<td>
+workflowr::wflow_publish(“analysis/eb_vs_soft.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephens999/stat34800/d66f560e8264fd453f65dcc8a0a908e7f0ab82e0/docs/eb_vs_soft.html" target="_blank">d66f560</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2019-04-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -708,6 +727,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephens999/stat34800/blob/d66f560e8264fd453f65dcc8a0a908e7f0ab82e0/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-3-1.png" target="_blank">d66f560</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2019-04-16
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephens999/stat34800/blob/8f13d93c72dd03444209aa197cd8434cb56c863f/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-3-1.png" target="_blank">8f13d93</a>
 </td>
 <td>
@@ -723,7 +753,7 @@ stephens999
 </div>
 <p>Now do inference under the EBNM model. Notice how the small values are shrunk hard, and the big values are hardly shrunk at all.</p>
 <pre class="r"><code>x.pn = ebnm_point_normal(x,1)
-plot(x,get_pm(x.pn),main=&quot;observation (x) vs posterior mean&quot;, ylab=&quot;posterior mean&quot;)
+plot(x,x.pn$posterior$mean,main=&quot;observation (x) vs posterior mean&quot;, ylab=&quot;posterior mean&quot;)
 abline(a=0,b=1,col=&quot;red&quot;)</code></pre>
 <p><img src="figure/eb_vs_soft.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -750,6 +780,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephens999/stat34800/blob/d66f560e8264fd453f65dcc8a0a908e7f0ab82e0/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-4-1.png" target="_blank">d66f560</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2019-04-16
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephens999/stat34800/blob/8f13d93c72dd03444209aa197cd8434cb56c863f/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-4-1.png" target="_blank">8f13d93</a>
 </td>
 <td>
@@ -770,17 +811,91 @@ stephens999
 plot(x,soft_thresh(x,1.5),main=&quot;observation (x) vs soft-thresholding estimate (lambda=1.5)&quot;,ylab=&quot;soft-thresholded estimate&quot;)
 abline(a=0,b=1,col=&quot;red&quot;)</code></pre>
 <p><img src="figure/eb_vs_soft.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/d66f560e8264fd453f65dcc8a0a908e7f0ab82e0/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-5-1.png" target="_blank">d66f560</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2019-04-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Now look at Mean Squared Error. Notice that both do much better than no shrinkage!!</p>
 <pre class="r"><code>mse = rep(0,100)
 l = seq(0,5,length=100)
 for(i in 1:100){
   mse[i] = mean((theta-soft_thresh(x,l[i]))^2)
 }
-plot(l,mse,ylim=c(0,1.2), main=&quot;black = no shrinkage; red=Empirical Bayes; points= soft-thresholding&quot;, xlab=&quot;lambda&quot;)
+plot(l,mse,ylim=c(0,1.2), main=&quot;blue = no shrinkage; red=Empirical Bayes; points= soft-thresholding&quot;, xlab=&quot;lambda&quot;)
 abline(h=mean((theta-get_pm(x.pn))^2),col=&quot;red&quot;)
 abline(h=mean((theta-x)^2),col=&quot;blue&quot;)</code></pre>
 <p><img src="figure/eb_vs_soft.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<br> <br>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/d66f560e8264fd453f65dcc8a0a908e7f0ab82e0/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-6-1.png" target="_blank">d66f560</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2019-04-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
@@ -788,13 +903,13 @@ abline(h=mean((theta-x)^2),col=&quot;blue&quot;)</code></pre>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.5.2 (2018-12-20)
+<pre><code>R version 3.6.0 (2019-04-26)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS Mojave 10.14.1
+Running under: macOS Mojave 10.14.6
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -803,20 +918,17 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ebnm_0.1-16 ashr_2.2-33
+[1] ebnm_0.1-24     ashr_2.2-47     workflowr_1.6.1
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.0        knitr_1.21        whisker_0.3-2    
- [4] magrittr_1.5      workflowr_1.2.0   MASS_7.3-51.1    
- [7] pscl_1.5.2        doParallel_1.0.14 SQUAREM_2017.10-1
-[10] lattice_0.20-38   foreach_1.4.4     stringr_1.3.1    
-[13] tools_3.5.2       parallel_3.5.2    grid_3.5.2       
-[16] xfun_0.4          git2r_0.24.0      htmltools_0.3.6  
-[19] iterators_1.0.10  yaml_2.2.0        rprojroot_1.3-2  
-[22] digest_0.6.18     mixsqp_0.1-97     Matrix_1.2-15    
-[25] fs_1.2.6          codetools_0.2-15  glue_1.3.0       
-[28] evaluate_0.12     rmarkdown_1.11    stringi_1.2.4    
-[31] compiler_3.5.2    backports_1.1.3   truncnorm_1.0-8  </code></pre>
+ [1] Rcpp_1.0.4      knitr_1.28      whisker_0.4     magrittr_1.5   
+ [5] SQUAREM_2020.2  lattice_0.20-40 R6_2.4.1        rlang_0.4.5    
+ [9] stringr_1.4.0   tools_3.6.0     grid_3.6.0      xfun_0.12      
+[13] irlba_2.3.3     invgamma_1.1    git2r_0.26.1    htmltools_0.4.0
+[17] yaml_2.2.1      digest_0.6.25   rprojroot_1.3-2 mixsqp_0.3-31  
+[21] Matrix_1.2-18   later_1.0.0     promises_1.1.0  fs_1.3.2       
+[25] glue_1.4.0      evaluate_0.14   rmarkdown_2.1   stringi_1.4.6  
+[29] compiler_3.6.0  backports_1.1.5 truncnorm_1.0-8 httpuv_1.5.2   </code></pre>
 </div>
 </div>
 
@@ -850,6 +962,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

@@ -502,16 +502,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree63128c96817ad93772b04db35f86be259a94cf6btargetblank63128c9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/63128c96817ad93772b04db35f86be259a94cf6b" target="_blank">63128c9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree86a9e55f97d762a87ba246f448aa386dd5f54b7atargetblank86a9e55a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/86a9e55f97d762a87ba246f448aa386dd5f54b7a" target="_blank">86a9e55</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree63128c96817ad93772b04db35f86be259a94cf6btargetblank63128c9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree86a9e55f97d762a87ba246f448aa386dd5f54b7atargetblank86a9e55a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephens999/stat34800/tree/63128c96817ad93772b04db35f86be259a94cf6b" target="_blank">63128c9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephens999/stat34800/tree/86a9e55f97d762a87ba246f448aa386dd5f54b7a" target="_blank">86a9e55</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -577,6 +577,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/86a9e55f97d762a87ba246f448aa386dd5f54b7a/analysis/eb_vs_soft.Rmd" target="_blank">86a9e55</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2020-04-24
+</td>
+<td>
+workflowr::wflow_publish(“analysis/eb_vs_soft.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephens999/stat34800/d7c3778a471a3349848a3868595bcc980e3af4cc/docs/eb_vs_soft.html" target="_blank">d7c3778</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2020-04-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -780,6 +814,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephens999/stat34800/blob/d7c3778a471a3349848a3868595bcc980e3af4cc/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-4-1.png" target="_blank">d7c3778</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2020-04-24
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephens999/stat34800/blob/d66f560e8264fd453f65dcc8a0a908e7f0ab82e0/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-4-1.png" target="_blank">d66f560</a>
 </td>
 <td>
@@ -855,7 +900,7 @@ for(i in 1:100){
   mse[i] = mean((theta-soft_thresh(x,l[i]))^2)
 }
 plot(l,mse,ylim=c(0,1.2), main=&quot;blue = no shrinkage; red=Empirical Bayes; points= soft-thresholding&quot;, xlab=&quot;lambda&quot;)
-abline(h=mean((theta-get_pm(x.pn))^2),col=&quot;red&quot;)
+abline(h=mean((theta-x.pn$posterior$mean)^2),col=&quot;red&quot;)
 abline(h=mean((theta-x)^2),col=&quot;blue&quot;)</code></pre>
 <p><img src="figure/eb_vs_soft.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -880,6 +925,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/d7c3778a471a3349848a3868595bcc980e3af4cc/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-6-1.png" target="_blank">d7c3778</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2020-04-24
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephens999/stat34800/blob/d66f560e8264fd453f65dcc8a0a908e7f0ab82e0/docs/figure/eb_vs_soft.Rmd/unnamed-chunk-6-1.png" target="_blank">d66f560</a>

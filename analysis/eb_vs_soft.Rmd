@@ -42,7 +42,7 @@ how the small values are shrunk hard, and the big values
 are hardly shrunk at all.
 ```{r}
 x.pn = ebnm_point_normal(x,1)
-plot(x,get_pm(x.pn),main="observation (x) vs posterior mean", ylab="posterior mean")
+plot(x,x.pn$posterior$mean,main="observation (x) vs posterior mean", ylab="posterior mean")
 abline(a=0,b=1,col="red")
 ```
 
@@ -63,7 +63,7 @@ l = seq(0,5,length=100)
 for(i in 1:100){
   mse[i] = mean((theta-soft_thresh(x,l[i]))^2)
 }
-plot(l,mse,ylim=c(0,1.2), main="black = no shrinkage; red=Empirical Bayes; points= soft-thresholding", xlab="lambda")
+plot(l,mse,ylim=c(0,1.2), main="blue = no shrinkage; red=Empirical Bayes; points= soft-thresholding", xlab="lambda")
 abline(h=mean((theta-get_pm(x.pn))^2),col="red")
 abline(h=mean((theta-x)^2),col="blue")
 ```

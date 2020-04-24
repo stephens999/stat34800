@@ -64,7 +64,7 @@ for(i in 1:100){
   mse[i] = mean((theta-soft_thresh(x,l[i]))^2)
 }
 plot(l,mse,ylim=c(0,1.2), main="blue = no shrinkage; red=Empirical Bayes; points= soft-thresholding", xlab="lambda")
-abline(h=mean((theta-get_pm(x.pn))^2),col="red")
+abline(h=mean((theta-x.pn$posterior$mean)^2),col="red")
 abline(h=mean((theta-x)^2),col="blue")
 ```
 

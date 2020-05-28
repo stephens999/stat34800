@@ -5,9 +5,12 @@ date: "April 17, 2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+## Introduction
+
+Here I run both SVD and non-negative matrix factorization on the zipcode training data.
+
+## SVD
+
 
 Here we read in the "zipcode" training data, and extract the 2s and 3s.
 ```{r}
@@ -32,6 +35,78 @@ And a histogram suggests a mixture of two Gaussians might be
 a reasonable start:
 ```{r}
 hist(z23.svd$u[,2],breaks=seq(-0.07,0.07,length=20))
+```
+
+# Plot the images corresponding to first two eigenvectors
+
+We put the eigenvector in the form of an image before plotting.
+Note that I have not been very careful with the limits
+```{r}
+n = sqrt(length(z23.svd$v[,1]))
+plot_zipcode_image = function(v){
+  n = sqrt(length(v))
+  m = matrix(v,nrow=n)
+  m = apply(m,1,rev) # I had to experiment here to get the images to appear the "right way up"
+  m = apply(m,1,rev) # note that applying rev twice does not result in no change...
+  m = apply(m,2,rev)
+  image(m)
+}
+plot_zipcode_image(z23.svd$v[,1])
+plot_zipcode_image(z23.svd$v[,2])
+```
+
+# Try non-negative matrix factorization
+
+You will need to install `NNLM` to run this.
+```{r}
+#library(devtools)
+#devtools::install_github('linxihui/NNLM')
+
+library(NNLM)
+summary(as.vector(z23[1,]))
+z23_nonneg = z23[,-1] + 1
+z23.nmf = nnmf(z23_nonneg,k = 2)
+plot_zipcode_image(z23.nmf$H[1,])
+plot_zipcode_image(z23.nmf$H[2,])
+plot(z23.nmf$W[,1],z23.nmf$W[,2],col=z23[,1])
+```
+
+
+Try doing 6 and 3 instead - you see it separates them very nicely.
+```{r}
+sub = (z[,1] == 6) | (z[,1]==3)
+z36 = as.matrix(z[sub,])
+summary(as.vector(z36[1,]))
+z36_nonneg = z36[,-1] + 1
+z36.nmf = nnmf(z36_nonneg,k = 2)
+plot_zipcode_image(z36.nmf$H[1,])
+plot_zipcode_image(z36.nmf$H[2,])
+plot(z36.nmf$W[,1],z36.nmf$W[,2],col=z36[,1])
+```
+
+
+Try doing all the digits. Here the results are messier. It is possible
+this is a local optimum problem as nmf is sensitive to initialization.
+```{r}
+z_nonneg = as.matrix(z[,-1]) + 1
+z.nmf = nnmf(z_nonneg,k = 12,max.iter = 100)
+par(mfcol=c(3,4),mai=rep(0.2,4))
+for(i in 1:12){
+  plot_zipcode_image(z.nmf$H[i,])
+}
+```
+
+
+Try running multiple times. Here I plot the mse trace for 3 different runs.
+
+```{r}
+z.nmf2 = nnmf(z_nonneg,k = 12,max.iter = 100)
+z.nmf3 = nnmf(z_nonneg,k = 12,max.iter = 100)
+par(mfcol=c(1,1),mai=rep(0.5,4))
+plot(z.nmf$mse,type="l")
+lines(z.nmf2$mse,col=2)
+lines(z.nmf3$mse,col=3)
+
 ```
 
 

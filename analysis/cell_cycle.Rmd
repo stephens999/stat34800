@@ -9,12 +9,26 @@ output: workflowr::wflow_html
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Load Packages
+
+You will need to have `genlasso`, `wavethresh` and `smashr` installed to run.
+The first two are on CRAN.
+The `smashr` package can be installed from github using the following code:
+```{r eval=FALSE}
+devtools::install_github("stephenslab/smashr")
+```
+
+
+```{r}
+library(wavethresh)
+library(genlasso)
+library(smashr)
+```
+
 # Some Cell Cycle Data
 
 The data come from a recent experiment performed in the Gilad lab by Po Tung, in collaboration with Joyce Hsiao and others. 
-
-Since this is an anlaysis in progress, there is a lot we do not
-know about these data.
+This was an early look at these data (later published in (https://genome.cshlp.org/content/30/4/611)).
 
 
 The data are measuring the activity of 10 genes that may or may not be involved in the "cell cycle", which is the process cells go through as
@@ -75,7 +89,6 @@ at its simplest, applies L1 regularization to the changes in mean from one obser
 It is implemented in the "genlasso" package.
 
 ```{r}
-library(genlasso)
 d2.tf = trendfilter(d[,2],ord = 1)
 d2.tf.cv = cv.trendfilter(d2.tf) # performs 5-fold CV
 plot(d[,1],d[,2],xlab="cell cycle",ylab="expression")
@@ -149,7 +162,6 @@ Here we do the Haar wavelet by specifying `family="DaubExPhase",filter.number = 
 transform function `wd`. The plot shows the wavelet transformed
 values, separately at each resolution.
 ```{r}
-library("wavethresh")
 wds <- wd(d.sub[,2],family="DaubExPhase",filter.number = 1)
 plot(wds)
 ```
@@ -182,48 +194,30 @@ lines(d.sub$theta,fd,col=2,lwd=3)
 
 What happens if we use an Empirical Bayes thresholding rule?
 
-The EbayesThresh package essentially solves the EBNM problem,
-using a prior distribution that is a mixture of a point mass at 0
-and a Laplace distribution with rate parameter $a$:
-$$ \pi_0 \delta_0 + (1-\pi_0) DExp(a).$$
+The `smashr` package [described here](https://arxiv.org/abs/1605.07787) 
+essentially does wavelet smoothing by Empirical Bayes. The prior
+is a mixture of normals, with different priors at different wavelet resolutions.
 
-Here `a=NA` tells Ebayesthresh ot estimate $a$.
 Notice that the outliers cause "problems"
 ```{r}
-library("EbayesThresh")
-wds <- wd(d.sub[,2],family="DaubLeAsymm",filter.number = 8)
-wtd <- ebayesthresh.wavelet(wds,a=NA)
-fd <- wr(wtd) #reconstruct
+library("smashr")
+smash.res = smash(d.sub[,2])
 plot(d.sub$theta,d.sub[,2],xlab="cell cycle", ylab = "Expression")
-lines(d.sub$theta,fd,col=2,lwd=3)
+lines(d.sub$theta,smash.res,col=2,lwd=3)
 ```
 
-Try removing the outliers (actually setting them to the mean here),
-just to see what happens.
+Here we removed the outliers (actually setting them to the mean) to avoid this problem:
 ```{r}
 xx = ifelse(d.sub[,2]<2,mean(d.sub[,2]),d.sub[,2])
-wds <- wd(xx,family="DaubLeAsymm",filter.number = 8)
-wtd <- ebayesthresh.wavelet(wds,a=NA)
-fd <- wr(wtd) #reconstruct
-plot(d.sub$theta,xx,xlab="cell cycle", ylab = "Expression")
-lines(d.sub$theta,fd,col=2,lwd=3)
+smash.res = smash(xx)
+plot(d.sub$theta,d.sub[,2],xlab="cell cycle", ylab = "Expression")
+lines(d.sub$theta,smash.res,col=2,lwd=3)
 ```
 
-
-Notice that estimating $a$ is really important (the default is
-to set $a=0.5$):
-```{r}
-xx = ifelse(d.sub[,2]<2,mean(d.sub[,2]),d.sub[,2])
-wds <- wd(xx,family="DaubLeAsymm",filter.number = 8)
-wtd <- ebayesthresh.wavelet(wds)
-fd <- wr(wtd) #reconstruct
-plot(d.sub$theta,xx,xlab="cell cycle", ylab = "Expression")
-lines(d.sub$theta,fd,col=2,lwd=3)
-```
 
 
 ## Dealing with the circularity
 
-Note that the default in this particular package (`wavethresh`) is to assume
+Note that the default in `smashr` is to assume
 the data are periodic on their region of definition - that is, circular.
 So we don't have to do anything special here. It is taken care of!

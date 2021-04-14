@@ -503,24 +503,24 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800treef5b651b7ee55e9fbb0f060ad0499a6506bd93129targetblankf5b651ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/f5b651b7ee55e9fbb0f060ad0499a6506bd93129" target="_blank">f5b651b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800treeae40d4b0050d725dedd9bdcba5855cff3a7da9c6targetblankae40d4ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/ae40d4b0050d725dedd9bdcba5855cff3a7da9c6" target="_blank">ae40d4b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800treef5b651b7ee55e9fbb0f060ad0499a6506bd93129targetblankf5b651ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800treeae40d4b0050d725dedd9bdcba5855cff3a7da9c6targetblankae40d4ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephens999/stat34800/tree/f5b651b7ee55e9fbb0f060ad0499a6506bd93129" target="_blank">f5b651b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephens999/stat34800/tree/ae40d4b0050d725dedd9bdcba5855cff3a7da9c6" target="_blank">ae40d4b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
 
 </code></pre>
 <p>
@@ -559,6 +559,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/ae40d4b0050d725dedd9bdcba5855cff3a7da9c6/analysis/cell_cycle.Rmd" target="_blank">ae40d4b</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+<td>
+workflowr::wflow_publish(“cell_cycle.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephens999/stat34800/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/cell_cycle.html" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -694,7 +728,7 @@ Attaching package: &#39;igraph&#39;</code></pre>
 </div>
 <div id="some-cell-cycle-data" class="section level1">
 <h1>Some Cell Cycle Data</h1>
-<p>The data come from a recent experiment performed in the Gilad lab by Po Tung, in collaboration with Joyce Hsiao and others. This was an early look at these data (later published in (<a href="https://genome.cshlp.org/content/30/4/611" class="uri">https://genome.cshlp.org/content/30/4/611</a>)).</p>
+<p>The data come from a recent experiment performed in the Gilad lab by Po Tung, in collaboration with Joyce Hsiao and others. This was an early look at these data (later published in [<a href="https://genome.cshlp.org/content/30/4/611" class="uri">https://genome.cshlp.org/content/30/4/611</a>]).</p>
 <p>The data are measuring the activity of 10 genes that may or may not be involved in the “cell cycle”, which is the process cells go through as they divide. (We have data on a large number of genes, but Joyce has picked out 10 of them for us to look at.) Each gene is measured in many single cells, and we have some independent (but noisy) measurement of where each cell is in the cell cycle.</p>
 <pre class="r"><code>d = readRDS(&quot;../data/cyclegenes.rds&quot;)
 dim(d)</code></pre>
@@ -728,6 +762,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-4-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-4-1.png" target="_blank">f2098f0</a>
@@ -773,6 +818,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-5-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-5-1.png" target="_blank">f2098f0</a>
 </td>
 <td>
@@ -791,6 +847,43 @@ for(i in 1:4){
   plot(d$theta, d[,(i+5)],pch=&quot;.&quot;,ylab=&quot;gene expression&quot;,xlab=&quot;cell cycle location&quot;)
 }</code></pre>
 <p><img src="figure/cell_cycle.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-2">
+Past versions of unnamed-chunk-5-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-5-2.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The question we want to answer is this: which genes show greatest evidence for varying in their expression through the cell cycle? For now what we really want is a filter we can apply to a large number of genes to pick out the ones that look most “interesting”. Later we might want a more formal statistical measure of evidence.</p>
 <p>Our current idea is to try “smoothing” these data, and pick out genes where the change in the mean over theta is most variable (in some sense). The extreme would be if the smoother fits a horizontal line - that indicates no variability with theta, so those genes are not interesting to us.</p>
 </div>
@@ -825,6 +918,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-6-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-6-1.png" target="_blank">f2098f0</a>
@@ -872,6 +976,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-7-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-7-1.png" target="_blank">f2098f0</a>
 </td>
 <td>
@@ -892,6 +1007,43 @@ d7.tf2.cv = cv.trendfilter(d7.tf2) # performs 5-fold CV</code></pre>
 <pre class="r"><code>plot(d[,1],d[,7],xlab=&quot;cell cycle&quot;,ylab=&quot;expression&quot;)
 lines(d[,1],predict(d7.tf2, d7.tf2.cv$lambda.min)$fit,col=3,lwd=3)</code></pre>
 <p><img src="figure/cell_cycle.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-8-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="dealing-with-the-circularity" class="section level2">
 <h2>Dealing with the circularity</h2>
 <p>Because the <span class="math inline">\(x\)</span> axis here is cyclical, the value of <span class="math inline">\(E(Y|x)\)</span> near <span class="math inline">\(x=0\)</span> should be similar to the value near <span class="math inline">\(x=2pi\)</span>. But trend filtering does not know this. We can encourage this behaviour by duplicating the data using a translation. (Note this is different than reflecting it about the boundaries).</p>
@@ -929,6 +1081,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-9-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-9-1.png" target="_blank">f2098f0</a>
 </td>
 <td>
@@ -947,12 +1110,49 @@ include = c(rep(FALSE,length(d[,2])), rep(TRUE, length(d[,2])), rep(FALSE, lengt
 plot(xx[include],yy[include],xlab=&quot;cell cycle&quot;,ylab=&quot;expression&quot;, main=&quot;trend filtering with circular fit&quot;)
 lines(xx[include],predict(yy.tf2, yy.tf2.cv$lambda.min)$fit[include],col=3,lwd=3)</code></pre>
 <p><img src="figure/cell_cycle.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-2">
+Past versions of unnamed-chunk-9-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-9-2.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="wavelets" class="section level1">
 <h1>Wavelets</h1>
 <p>Here we will apply wavelets to smooth these data.</p>
-<p>To apply wavelets we need the data to be a power of 2. Also we need the data to be ordered in terms of theta. We’ll subset the data to 512 elements here, and order it:</p>
+<p>To apply basic wavelets methods we need the data to be a power of 2. Also we need the data to be ordered in terms of theta. We’ll subset the data to 512 elements here, and order it:</p>
 <pre class="r"><code># subset the data
 set.seed(1)
 subset = sort(sample(1:nrow(d),512,replace=FALSE))
@@ -983,6 +1183,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-11-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-11-1.png" target="_blank">f2098f0</a>
@@ -1026,6 +1237,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-12-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-12-1.png" target="_blank">f2098f0</a>
@@ -1072,6 +1294,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-13-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-13-1.png" target="_blank">f2098f0</a>
 </td>
 <td>
@@ -1116,6 +1349,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-14-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-14-1.png" target="_blank">f2098f0</a>
 </td>
 <td>
@@ -1129,13 +1373,13 @@ stephens999
 </table>
 </div>
 </div>
-<p>What happens if we use an Empirical Bayes thresholding rule?</p>
-<p>The <code>smashr</code> package <a href="https://arxiv.org/abs/1605.07787">described here</a> essentially does wavelet smoothing by Empirical Bayes. The prior is a mixture of normals, with different priors at different wavelet resolutions.</p>
-<p>Notice that the outliers cause “problems”</p>
-<pre class="r"><code>library(&quot;smashr&quot;)
-smash.res = smash(d.sub[,2])
-plot(d.sub$theta,d.sub[,2],xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
-lines(d.sub$theta,smash.res,col=2,lwd=3)</code></pre>
+<div id="emprical-bayes-approach-to-wavelet-smoothing" class="section level2">
+<h2>Emprical Bayes approach to wavelet smoothing</h2>
+<p>The <code>smashr</code> package <a href="https://arxiv.org/abs/1605.07787">described here</a> essentially does wavelet smoothing using an Empirical Bayes method to estimate the prior on the wavelet coefficients. By estimating the prior from the data <code>smashr</code> decides how much to shrink each wavelet coefficient. Also <code>smashr</code> does not require the data to be a power of 2, so we can apply it directly.</p>
+<p>However, out of the box we can see the outliers cause “problems”.</p>
+<pre class="r"><code>smash.res = smash(d[,2])
+plot(d$theta,d[,2],xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
+lines(d$theta,smash.res,col=2,lwd=3)</code></pre>
 <p><img src="figure/cell_cycle.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
@@ -1161,6 +1405,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-15-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephens999/stat34800/blob/f2098f07c362217a7b60b249873cc77021a1819f/docs/figure/cell_cycle.Rmd/unnamed-chunk-15-1.png" target="_blank">f2098f0</a>
 </td>
 <td>
@@ -1174,15 +1429,59 @@ stephens999
 </table>
 </div>
 </div>
-<p>Here we removed the outliers (actually setting them to the mean) to avoid this problem:</p>
-<pre class="r"><code>xx = ifelse(d.sub[,2]&lt;2,mean(d.sub[,2]),d.sub[,2])
+<p>Here we removed the outliers (actually setting them to the mean) to avoid this problem. The resulting fit is much better.</p>
+<pre class="r"><code>xx = ifelse(d[,2]&lt;2,mean(d[,2]),d[,2])
 smash.res = smash(xx)
-plot(d.sub$theta,d.sub[,2],xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
-lines(d.sub$theta,smash.res,col=2,lwd=3)</code></pre>
+plot(d$theta,d[,2],xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
+lines(d$theta,smash.res,col=2,lwd=3)</code></pre>
 <p><img src="figure/cell_cycle.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/c02c5c1ea17eae5e9ba6ce4b283070fef7e4b558/docs/figure/cell_cycle.Rmd/unnamed-chunk-16-1.png" target="_blank">c02c5c1</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-04-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The above uses the default wavelet, which for smash is the Haar wavelet. The fit is less step-like than you might expect with the Haar wavelet both because the EB shrinkage produces a natural smoothing property (the posterior mean is not exactly sparse) and because smashr uses a rotation scheme to sum over all possibly rotations of the data (sometimes called the “Translation invariant” wavelet transform.) However we can change the default by specifying family and/or filter number. Here we see that changing filter.number to 8 does not make much difference:</p>
+<pre class="r"><code>smash.res.8 = smash(xx, filter.number=8)
+plot(d$theta,d[,2],xlab=&quot;cell cycle&quot;, ylab = &quot;Expression&quot;)
+lines(d$theta,smash.res,col=2,lwd=3)
+lines(d$theta,smash.res.8,col=3,lwd=3)</code></pre>
+<p><img src="figure/cell_cycle.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
 <div id="dealing-with-the-circularity-1" class="section level2">
 <h2>Dealing with the circularity</h2>
-<p>Note that the default in <code>smashr</code> is to assume the data are periodic on their region of definition - that is, circular. So we don’t have to do anything special here. It is taken care of!</p>
+<p>One could deal with circularity the same way as in trend-filtering.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

@@ -28,7 +28,7 @@ library(smashr)
 # Some Cell Cycle Data
 
 The data come from a recent experiment performed in the Gilad lab by Po Tung, in collaboration with Joyce Hsiao and others. 
-This was an early look at these data (later published in (https://genome.cshlp.org/content/30/4/611)).
+This was an early look at these data (later published in [https://genome.cshlp.org/content/30/4/611]).
 
 
 The data are measuring the activity of 10 genes that may or may not be involved in the "cell cycle", which is the process cells go through as
@@ -147,7 +147,7 @@ lines(xx[include],predict(yy.tf2, yy.tf2.cv$lambda.min)$fit[include],col=3,lwd=3
 
 Here we will apply wavelets to smooth these data.
 
-To apply wavelets we need the data to be a power of 2.
+To apply basic wavelets methods we need the data to be a power of 2.
 Also we need the data to be ordered in terms of theta.
 We'll subset the data to 512 elements here, and order it:
 ```{r}
@@ -192,32 +192,42 @@ plot(d.sub$theta,d.sub[,2],xlab="cell cycle", ylab = "Expression")
 lines(d.sub$theta,fd,col=2,lwd=3)
 ```
 
-What happens if we use an Empirical Bayes thresholding rule?
+## Emprical Bayes approach to wavelet smoothing
 
 The `smashr` package [described here](https://arxiv.org/abs/1605.07787) 
-essentially does wavelet smoothing by Empirical Bayes. The prior
-is a mixture of normals, with different priors at different wavelet resolutions.
+essentially does wavelet smoothing using an Empirical Bayes
+method to estimate the prior on the wavelet coefficients.
+By estimating the prior from the data `smashr` decides
+how much to shrink each wavelet coefficient.
+Also `smashr` does not require the data to be a power of 2, so we can apply it directly.
 
-Notice that the outliers cause "problems"
+However, out of the box we can see the outliers cause "problems".
 ```{r}
-library("smashr")
-smash.res = smash(d.sub[,2])
-plot(d.sub$theta,d.sub[,2],xlab="cell cycle", ylab = "Expression")
-lines(d.sub$theta,smash.res,col=2,lwd=3)
+smash.res = smash(d[,2])
+plot(d$theta,d[,2],xlab="cell cycle", ylab = "Expression")
+lines(d$theta,smash.res,col=2,lwd=3)
 ```
 
-Here we removed the outliers (actually setting them to the mean) to avoid this problem:
+Here we removed the outliers (actually setting them to the mean) to avoid this problem. The resulting fit is much better.
 ```{r}
-xx = ifelse(d.sub[,2]<2,mean(d.sub[,2]),d.sub[,2])
+xx = ifelse(d[,2]<2,mean(d[,2]),d[,2])
 smash.res = smash(xx)
-plot(d.sub$theta,d.sub[,2],xlab="cell cycle", ylab = "Expression")
-lines(d.sub$theta,smash.res,col=2,lwd=3)
+plot(d$theta,d[,2],xlab="cell cycle", ylab = "Expression")
+lines(d$theta,smash.res,col=2,lwd=3)
 ```
 
+The above uses the default wavelet, which for smash is the Haar wavelet.
+The fit is less step-like than you might expect with the Haar wavelet both because the EB shrinkage produces a natural smoothing property (the posterior mean is not exactly sparse) and because smashr uses a rotation scheme to sum over all possibly rotations of the data (sometimes called the "Translation invariant" wavelet transform.)
+However we can change the default by specifying family and/or filter number.
+Here we see that changing filter.number to 8 does not make much difference:
 
+```{r}
+smash.res.8 = smash(xx, filter.number=8)
+plot(d$theta,d[,2],xlab="cell cycle", ylab = "Expression")
+lines(d$theta,smash.res,col=2,lwd=3)
+lines(d$theta,smash.res.8,col=3,lwd=3)
+```
 
 ## Dealing with the circularity
 
-Note that the default in `smashr` is to assume
-the data are periodic on their region of definition - that is, circular.
-So we don't have to do anything special here. It is taken care of!
+One could deal with circularity the same way as in trend-filtering.

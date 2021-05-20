@@ -1,0 +1,35 @@
+---
+title: "currency"
+author: "Matthew Stephens"
+date: "2021-05-20"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+I wanted to download some exchange rate data
+
+We can get a table of currencies from quantmod:
+```{r}
+currency_table = quantmod::oanda.currencies
+head(currency_table)
+```
+
+I want to get all the exchange rates, so I use USD as the standard.
+The `getFX` function saves object to environment, so I put it in a dataframe.
+Then I save them to `data/currency.csv`.
+
+```{r}
+library(quantmod)
+curr = rownames(quantmod::oanda.currencies) # gives the 3-letter abbreviation
+df = data.frame(matrix(0,ncol= length(curr),nrow=179))
+for(i in 1:length(curr)){
+  xrate = getFX(paste0("USD/",curr[i]))  # get the exchange rates of all currencies with USD)
+  xrate = get(paste0("USD",curr[i]))
+  df[,i] = xrate
+}
+colnames(df) <- curr
+write.csv(df, file="../data/currency.csv",quote=FALSE)
+```

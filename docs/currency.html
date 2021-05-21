@@ -412,7 +412,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-05-20
+<strong>Last updated:</strong> 2021-05-21
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree89306e1e092e5e723eecc8d738a7afc0c5128642targetblank89306e1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/89306e1e092e5e723eecc8d738a7afc0c5128642" target="_blank">89306e1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree5d15ff0970a9934b108b9e2d2ec2aa9f58035d18targetblank5d15ff0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/5d15ff0970a9934b108b9e2d2ec2aa9f58035d18" target="_blank">5d15ff0</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree89306e1e092e5e723eecc8d738a7afc0c5128642targetblank89306e1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree5d15ff0970a9934b108b9e2d2ec2aa9f58035d18targetblank5d15ff0a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephens999/stat34800/tree/89306e1e092e5e723eecc8d738a7afc0c5128642" target="_blank">89306e1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephens999/stat34800/tree/5d15ff0970a9934b108b9e2d2ec2aa9f58035d18" target="_blank">5d15ff0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -562,6 +562,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/5d15ff0970a9934b108b9e2d2ec2aa9f58035d18/analysis/currency.Rmd" target="_blank">5d15ff0</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-05-21
+</td>
+<td>
+workflowr::wflow_publish(“currency.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephens999/stat34800/af3fd494b55a8f38853cd1e4dd8c10f9fc507405/docs/currency.html" target="_blank">af3fd49</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-05-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -624,7 +658,7 @@ for(i in 1:length(curr)){
   df[,i] = xrate
 }
 colnames(df) &lt;- curr
-write.csv(df, file=&quot;../data/currency.csv&quot;,quote=FALSE)</code></pre>
+write.csv(df, file=&quot;../data/currency.csv&quot;,quote=FALSE,row.names=FALSE)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

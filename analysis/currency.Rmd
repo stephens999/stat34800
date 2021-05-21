@@ -31,5 +31,5 @@ for(i in 1:length(curr)){
   df[,i] = xrate
 }
 colnames(df) <- curr
-write.csv(df, file="../data/currency.csv",quote=FALSE)
+write.csv(df, file="../data/currency.csv",quote=FALSE,row.names=FALSE)
 ```

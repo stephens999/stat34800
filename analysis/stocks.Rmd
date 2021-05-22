@@ -9,24 +9,33 @@ editor_options:
 
 ## Introduction
 
-Here I will download and save some stock price data. I got some help from
+Here I download and save some stock price data. I got some help from
 https://www.codingfinance.com/post/2018-03-27-download-price/
 
-
+Here are the stocks I download:
 ```{r}
-library(tidyquant)
-library(purrr)
-# K is Kellogs
-# O is Realty Income Corp
-# MMM is 3M
+# AAPL: Apple
+# NFLX: Netflix
+# AMZN: Amazon
+# MMM: 3M
+# K: Kellogs
+# O: Realty Income Corp
 # NSRGY: Nestle
 # LDSVF: Lindt
 # JPM: JP Morgan Chase
-# JNJ: johnson and Johnson
-# TSLA: tesla
-# V: visa
+# JNJ: Johnson and Johnson
+# TSLA: Tesla
+# V: Visa
 # PFE: Pfizer
-# 
+```
+
+## Downloading and Saving
+
+Here I use the quantmod package to download and save the data:
+```{r}
+library(tidyquant)
+library(purrr)
+
 
 tickers = c("AAPL", "NFLX", "AMZN", "MMM", "K", "O", "NSRGY", "LDSVF", "JPM", "JNJ", "TSLA", "V", "PFE")
 getSymbols(tickers)
@@ -39,13 +48,48 @@ head(prices)
 
 Some companies (eg TLSA) were not listed for the entire period avoilable.
 I'm going to narrow down the time window so no missing data.
-This ends up with the period 2010-2021.
+This ends up with the period 2010-10-15 to 2021-05-21.
 ```{r}
 nomiss = function(x){all(!is.na(x))}
 prices = prices[apply(prices,1,nomiss),]
 head(prices)
 tail(prices)
 write.csv(prices, file="../data/prices.csv",quote=FALSE,row.names=FALSE)
+```
+
+
+## Reading in and processing
+
+Here are brief suggestions for reading and processing the data.
+First since stocks are positive, and
+what generally matters in stocks is percentage change in price,
+it makes sense to take logs and look at differences.
+These are called "log-returns" in finance.
+Here I  load in the data and compute the log returns.
+
+```{r}
+prices = read.csv("../data/prices.csv")
+log_prices = log(prices)
+log_returns = apply(log_prices,2, diff)
+```
+
+
+Note that while the stock prices from day to day are highly correlated
+(as they form a time series), log returns are much less correlated
+(and so easier to study and model statistically).
+
+```{r}
+plot(log_prices[,1], main="Apple (log) stock price over time")
+plot(log_returns[,1], main="Apple log-returns over time")
+```
+
+One question of interest is to what extent
+changes in stocks are correlated with one another.
+Here is an initial plot showing some of the correlation
+structure in the data....
+```{r}
+S = cor(log_returns)
+heatmap(S, xlab = names(prices), symm=TRUE)
 ```
 
 

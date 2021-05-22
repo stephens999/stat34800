@@ -1,0 +1,48 @@
+---
+title: "stocks"
+author: "Matthew Stephens"
+date: "2021-05-22"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+Here I will download and save some stock price data. I got some help from
+https://www.codingfinance.com/post/2018-03-27-download-price/
+
+
+```{r}
+library(tidyquant)
+library(purrr)
+# K is Kellogs
+# O is Realty Income Corp
+# MMM is 3M
+# NSRGY: Nestle
+# LDSVF: Lindt
+# JPM: JP Morgan Chase
+# JNJ: johnson and Johnson
+# TSLA: tesla
+# V: visa
+# PFE: Pfizer
+# 
+
+tickers = c("AAPL", "NFLX", "AMZN", "MMM", "K", "O", "NSRGY", "LDSVF", "JPM", "JNJ", "TSLA", "V", "PFE")
+getSymbols(tickers)
+
+prices <- map(tickers,function(x) Ad(get(x))) # gets the adjusted prices of each stock
+prices <- reduce(prices,merge)
+colnames(prices) <- tickers
+head(prices)
+```
+
+Some companies (eg TLSA were not listed for the entire period avoilable.
+I'm going to narrow down the time window so no missing data
+```{r}
+nomiss = function(x){all(!is.na(x))}
+prices = prices[apply(prices,1,nomiss),]
+write.csv(prices, file="../data/prices.csv",quote=FALSE,row.names=FALSE)
+```
+
+

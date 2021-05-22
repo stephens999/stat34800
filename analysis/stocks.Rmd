@@ -37,11 +37,14 @@ colnames(prices) <- tickers
 head(prices)
 ```
 
-Some companies (eg TLSA were not listed for the entire period avoilable.
-I'm going to narrow down the time window so no missing data
+Some companies (eg TLSA) were not listed for the entire period avoilable.
+I'm going to narrow down the time window so no missing data.
+This ends up with the period 2010-2021.
 ```{r}
 nomiss = function(x){all(!is.na(x))}
 prices = prices[apply(prices,1,nomiss),]
+head(prices)
+tail(prices)
 write.csv(prices, file="../data/prices.csv",quote=FALSE,row.names=FALSE)
 ```
 

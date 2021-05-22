@@ -46,6 +46,12 @@ output:
 - [GP_example.html](GP_example.html)
 - [GP_cell_cycle.html](GP_cell_cycle.html)
 
+# Financial data
+
+- [Download and process some stock data](stocks.html)
+- [Download and save some currency data](currency.html)
+- [Read in and process the currency data](currency_read_transform.html)
+
 # SVD/PCA
 
 - [svd_zip.html](svd_zip.html)

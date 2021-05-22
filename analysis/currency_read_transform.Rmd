@@ -1,0 +1,70 @@
+---
+title: "currency analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+In this document I read in some currency data, provide a brief explanation
+of the data, and illustrate some preliminary transformations one might perform. I had the intention of using these for a homework but my initial 
+analyses suggested the structure in the data are a bit subtle so I decided not
+to use them in homework for now.
+
+## Read in data
+
+The data were downloaded and saved in the `data` directory as
+documented [here](currency.html). They consist of daily exchange rates
+(vs the US dollar, abbreviated USD) for 191 currencies. Note
+that the first column is USD itself, so exchange rate is always 1.
+Note also that the first row is the most recent day, and last row is about 6 months ago; so that the vector of observations is "forwards in time" I reverse the rows here.
+
+```{r}
+df = read.csv("../data/currency.csv")
+df = apply(df,2,rev)
+head(df)
+```
+
+## Abbreviations
+
+You can find the meanings for the abbreviations using the `quantmod` library:
+```{r}
+currency_table = quantmod::oanda.currencies
+currency_table
+```
+
+
+## Processing
+
+We are going to use these data to look at covariances of the
+change in exchange rates. Of course, for a given currency,
+the exchange rate from one day
+to the next tend to be similar -- that is the time series will show strong
+autocorrelation. Here's an example time series for the Afghanistan Afghani (AFN):
+```{r}
+plot(df[,"AFN"],type="l", main="Exchange rates for AFN vs USD",ylab="day")
+```
+
+On the other hand, one might expect the *changes* in exchange rate from day to day to be less correlated. So I suggest analysing the changes from day to day.
+Also these data are positive, and it makes sense to measure changes on
+a multiplicative scale, so I will take the log and the look at the differences.
+
+```{r}
+ldf = log(df)
+ldf_diff = apply(ldf,2,diff)
+plot(ldf_diff[,"AFN"], type="l", main = "change in log exchange rate by day, AFN vs USD")
+```
+
+And we can look at how correlated these are between currencies. Eg when the 
+AFN goes up vs the dollar, does the Albanian Lek (ALL) also go up vs dollar?
+Maybe there is a hint of a positive correlation here? (One might
+expect a correlation as they are both being measured against the same thing, the USD... if something happens to weaken the USD then maybe both would go up....)
+```{r}
+plot(ldf_diff[,"AFN"], ldf_diff[,"ALL"])
+cor(ldf_diff[,"AFN"], ldf_diff[,"ALL"])
+```
+
+

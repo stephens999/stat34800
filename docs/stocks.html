@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree147eb459bb5717bfb46c9e9b92c11f1d39557cc6targetblank147eb45a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/147eb459bb5717bfb46c9e9b92c11f1d39557cc6" target="_blank">147eb45</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800treee6d3362acda797af5c76484969f4097f87fc642etargetblanke6d3362a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephens999/stat34800/tree/e6d3362acda797af5c76484969f4097f87fc642e" target="_blank">e6d3362</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800tree147eb459bb5717bfb46c9e9b92c11f1d39557cc6targetblank147eb45a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephens999stat34800treee6d3362acda797af5c76484969f4097f87fc642etargetblanke6d3362a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephens999/stat34800/tree/147eb459bb5717bfb46c9e9b92c11f1d39557cc6" target="_blank">147eb45</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephens999/stat34800/tree/e6d3362acda797af5c76484969f4097f87fc642e" target="_blank">e6d3362</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -525,6 +525,7 @@ Ignored files:
 Untracked files:
     Untracked:  analysis/currency_analysis.Rmd
     Untracked:  analysis/currency_read_transform.Rmd
+    Untracked:  analysis/stocks_analysis.Rmd
     Untracked:  data/currency.csv
     Untracked:  data/prices.csv
 
@@ -565,6 +566,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephens999/stat34800/blob/e6d3362acda797af5c76484969f4097f87fc642e/analysis/stocks.Rmd" target="_blank">e6d3362</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-05-22
+</td>
+<td>
+workflowr::wflow_publish(“stocks.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephens999/stat34800/e0195f20e56992879e5d5a0439b2efdee07f0d4c/docs/stocks.html" target="_blank">e0195f2</a>
+</td>
+<td>
+Matthew Stephens
+</td>
+<td>
+2021-05-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -679,10 +714,40 @@ head(prices)</code></pre>
 2007-01-08 33.26624 43.65722   NA NA 13.75173
 2007-01-09 33.12750 43.49312   NA NA 13.75698
 2007-01-10 33.37030 43.42091   NA NA 13.77275</code></pre>
-<p>Some companies (eg TLSA were not listed for the entire period avoilable. I’m going to narrow down the time window so no missing data</p>
+<p>Some companies (eg TLSA) were not listed for the entire period avoilable. I’m going to narrow down the time window so no missing data. This ends up with the period 2010-2021.</p>
 <pre class="r"><code>nomiss = function(x){all(!is.na(x))}
 prices = prices[apply(prices,1,nomiss),]
-write.csv(prices, file=&quot;../data/prices.csv&quot;,quote=FALSE,row.names=FALSE)</code></pre>
+head(prices)</code></pre>
+<pre><code>               AAPL     NFLX   AMZN      MMM        K        O    NSRGY  LDSVF
+2010-10-15 9.665921 22.24571 164.64 66.58378 35.79071 21.30972 40.26300 2262.3
+2010-10-18 9.766039 21.85714 163.56 66.97220 35.80500 21.59911 40.36640 2262.3
+2010-10-19 9.504692 21.33286 158.67 66.14308 35.66207 21.46981 39.44311 2262.3
+2010-10-20 9.536628 21.87857 158.67 66.83025 35.74784 21.95006 40.10788 2262.3
+2010-10-21 9.505616 24.67000 164.97 67.63698 35.55486 21.89465 40.78743 2262.3
+2010-10-22 9.442654 24.01429 169.13 67.55482 35.41193 21.85154 39.79028 2262.3
+                JPM      JNJ  TSLA        V      PFE
+2010-10-15 27.92472 46.70719 4.108 17.96467 11.31108
+2010-10-18 28.71398 46.92027 4.046 18.14062 11.34294
+2010-10-19 28.33062 46.50147 4.010 17.95310 11.08167
+2010-10-20 28.63881 46.72923 4.130 18.40916 11.25372
+2010-10-21 28.33813 47.01579 4.150 18.33507 11.23461
+2010-10-22 28.33813 46.88353 4.144 18.35591 11.15177</code></pre>
+<pre class="r"><code>tail(prices)</code></pre>
+<pre><code>             AAPL   NFLX    AMZN      MMM     K     O  NSRGY  LDSVF    JPM
+2021-05-14 127.45 493.37 3222.90 202.8870 66.54 65.34 120.89 9200.0 164.01
+2021-05-17 126.27 488.94 3270.39 203.6117 66.32 65.40 121.31 9300.0 164.67
+2021-05-18 124.85 486.28 3232.28 201.5469 66.04 65.48 121.57 9300.0 162.35
+2021-05-19 124.69 487.70 3231.80 201.1200 66.04 65.66 121.07 9299.8 161.11
+2021-05-20 127.31 501.67 3247.68 201.6500 66.32 66.91 122.78 9250.0 160.83
+2021-05-21 125.43 497.89 3203.08 201.8600 66.50 66.58 123.07 9250.0 162.66
+              JNJ   TSLA      V   PFE
+2021-05-14 170.22 589.74 226.94 40.02
+2021-05-17 170.39 576.83 226.44 40.11
+2021-05-18 170.45 577.87 225.57 40.05
+2021-05-19 170.08 563.46 224.59 39.83
+2021-05-20 171.07 586.78 226.44 40.12
+2021-05-21 170.96 580.88 226.77 39.95</code></pre>
+<pre class="r"><code>write.csv(prices, file=&quot;../data/prices.csv&quot;,quote=FALSE,row.names=FALSE)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

@@ -1,0 +1,53 @@
+---
+title: "svd_single_cell_data"
+author: "Matthew Stephens"
+date: "2021-05-25"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+I wanted to illutrate SVD on the single cell data we used in the 2021
+midterm.
+
+Read in the data:
+```{r}
+df = read.csv("../data/cell_data.csv",sep=",")
+X = as.matrix(df[,-1])
+head(df)
+```
+
+Here I simply run svd and plot the first two eigenvectors against one another.
+(One could imagine wanting to standardize the columsn first, but I did not do that for now).
+```{r}
+X.svd = svd(X)
+plot(X.svd$u[,1],X.svd$u[,2],col=c(rep(1,1000),rep(2,1000)), main = "first PC vs second PC, colored by cell type")
+```
+
+So it is seems that the cell types
+separate somewhat in PC space (even though there is considerable overlap). And yet the
+EM algorithm for Poisson clustering did not result in these two clusters. Why not?
+
+Have a look at PC1. It turns out that this is basically the
+total counts for each cell:
+```{r}
+plot(X.svd$u[,1],rowSums(X))
+```
+
+So what is going on is this. the Poisson cluster model
+ends up splitting the cells on PC1, basically splitting the cells
+by the total counts. This is like splitting documents into groups based
+on how long they are (how many words) rather than what the words say...
+PC2 is more about what the words say.
+
+Basically, if we want to model based approach to have a chance to 
+split into two groups we need to *control for the fact that different cells
+have different total counts*
+in the model.
+
+
+
+
+

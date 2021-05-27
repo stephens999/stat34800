@@ -55,6 +55,7 @@ output:
 # SVD/PCA
 
 - [svd_zip.html](svd_zip.html)
+- [svd on single cell data](svd_single_cell_data.html)
 - [pca_cell_cycle.html](pca_cell_cycle.html)
 
 	

@@ -7,7 +7,11 @@ output:
 ---
 
 
-# Sparse regression
+# Regularization and Sparse regression
+
+- [overfitting](overfitting.html)
+
+- [regularization](regularization.html)
 
 - [Intro to glmnet](glmnet_intro.html)
 

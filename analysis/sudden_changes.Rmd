@@ -11,24 +11,26 @@ editor_options:
 library(smooth)
 library(genlasso)
 library(smashr)
+library(stats)
 ```
 
 ## Introduction
 
-I wanted to illustrate the idea that some smoothing techniques are better than others
-at dealing with changes that occur on different "scales" (eg a combination of smooth changes as sudden changes).
+I compare some smoothing results in a situation that involves
+both smooth/gradual and sudden changes.
 
 ## Simulated data
 
-Here I set up $E(y)=\mu$ as a function that varies smoothly except for a sudden change in the middle, and simulate some data with that mean:
+Here I set up $E(y)=\mu$ as a function that varies smoothly except for a sudden change, and simulate some data with that mean:
 
 ```{r}
 t = seq(0,1,length=1024)
-mu = (t-0.5)^2 - 0.2*(t>0.5)
+mu = (t-0.5)^2 - 0.2*(t>0.7)
 
 y = rnorm(1024,mu,0.05)
 plot(t,mu, type="l", col=2, lwd=2)
 points(t,y)
+
 ```
 
 
@@ -67,5 +69,13 @@ lines(t,predict(y.tf.1, y.tf.1.cv$lambda.min)$fit,col=4,lwd=2)
 y.smash = smash(y,filter.number=1) 
 plot(t,mu, type="l", col=2, lwd=2, main="Wavelet (haar)")
 lines(t,y.smash,col=3,lwd=2)
+```
+
+## Smoothing spline
+
+```{r}
+y.ss = smooth.spline(t,y)
+plot(t,mu, type="l", col=2, lwd=2, main="Smoothing spline")
+lines(t,predict(y.ss)$y,col=3,lwd=2)
 ```
 

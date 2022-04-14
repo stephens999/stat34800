@@ -22,6 +22,8 @@ output:
 
 # Smoothing
 
+- [Simple simulation with a sudden change](sudden_changes.html)
+
 - [Trend filtering on cell cycle](cell_cycle.html)
 
 

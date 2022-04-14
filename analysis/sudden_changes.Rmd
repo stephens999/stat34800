@@ -1,0 +1,71 @@
+---
+title: "sudden_changes"
+author: "Matthew Stephens"
+date: "2022-04-14"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r}
+library(smooth)
+library(genlasso)
+library(smashr)
+```
+
+## Introduction
+
+I wanted to illustrate the idea that some smoothing techniques are better than others
+at dealing with changes that occur on different "scales" (eg a combination of smooth changes as sudden changes).
+
+## Simulated data
+
+Here I set up $E(y)=\mu$ as a function that varies smoothly except for a sudden change in the middle, and simulate some data with that mean:
+
+```{r}
+t = seq(0,1,length=1024)
+mu = (t-0.5)^2 - 0.2*(t>0.5)
+
+y = rnorm(1024,mu,0.05)
+plot(t,mu, type="l", col=2, lwd=2)
+points(t,y)
+```
+
+
+## Compare some smoothers
+
+## Simple moving average (sma)
+
+I tried a sliding window of sizes 10 and 50:
+```{r}
+y.sma.10 = sma(y,order=10) 
+y.sma.50 = sma(y,order=50)
+plot(t,mu, type="l", col=2, lwd=2, main="sma, order 10 (green) and 50 (blue)")
+
+lines(t,y.sma.10$fitted,col=3,lwd=2)
+lines(t,y.sma.50$fitted,col=4,lwd=2)
+```
+
+## Trend-filtering
+```{r}
+y.tf.0 = trendfilter(y,t,ord=0)
+y.tf.0.cv = cv.trendfilter(y.tf.0) # performs 5-fold CV
+
+y.tf.1 = trendfilter(y,t,ord=1)
+y.tf.1.cv = cv.trendfilter(y.tf.1) # performs 5-fold CV
+
+
+plot(t,mu, type="l", col=2, lwd=2, main="trendfilter (order 0 = green; order 1=blue)")
+
+lines(t,predict(y.tf.0, y.tf.0.cv$lambda.min)$fit,col=3,lwd=2)
+lines(t,predict(y.tf.1, y.tf.1.cv$lambda.min)$fit,col=4,lwd=2)
+```
+
+## Wavelet with EB shrinkage
+
+```{r}
+y.smash = smash(y,filter.number=1) 
+plot(t,mu, type="l", col=2, lwd=2, main="Wavelet (haar)")
+lines(t,y.smash,col=3,lwd=2)
+```
+

@@ -43,6 +43,9 @@ output:
 
 - [Fully Bayes Normal Means exercise (MCMC)](bayes_normal_means.html)	
 
+- [Fully Bayes Normal Means via Stan](stan_normal_means.html)	
+
+
 # HMM
 
 - [hmm_exercise.htm](hmm_exercise.html)

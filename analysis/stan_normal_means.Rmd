@@ -1,0 +1,134 @@
+---
+title: "stan_normal_means"
+author: "Matthew Stephens"
+date: "2022-04-26"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r}
+library("rstan")
+```
+
+## Introduction
+
+The R package `rstan` is designed to help implement MCMC sampling method
+for Bayesian models. You can read installation instructions [here](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started)
+but you might find it is enough to run
+`install.packages("rstan", repos = "https://cloud.r-project.org/", dependencies = TRUE)`.
+
+The package makes use of a sophisticated version of Metropolis--Hastings algorithm known as Hamiltonian MCMC. The motivation for this choice, rather than (say) a simple random walk proposal, is to try to create a Markov Chain that converges quickly to its stationary distribution. (As we shall see, it does not always succeed).
+
+## The normal means model (part I)
+
+Here we use stan to fit the normal means model with a normal prior:
+$$y_j | \theta_j, s_j^2 \sim N(\theta_j, s_j^2) \qquad  j=1,\dots,J$$
+$$\theta_j \sim N(\mu, \sigma^2).$$
+
+Here $y_j$ and $s_j$ are observed; the parameters of interest are $\mu, \sigma^2, \theta_1,\dots, \theta_J$. 
+
+To fit this in a Bayesian way we need to specify priors on $\mu$ and $\sigma^2$. Here
+I choose to use fairly diffuse (spread out) priors on these parameters. Specifically:
+$$\mu \sim N(0,100^2)$$
+$$\sigma \sim \text{Half-Cauchy}(0,10).$$ 
+Note: HSalf-Cauchy denotes the Cauchy distribution truncated at 0. It has become a common choice for a ``default" prior on a scale parameter, as advocated in [this paper](https://projecteuclid.org/journals/bayesian-analysis/volume-7/issue-4/On-the-Half-Cauchy-Prior-for-a-Global-Scale-Parameter/10.1214/12-BA730.full).
+My expectation is that the data are likely to be fairly informative about these parameters, so the likelihood will tend to dominate these diffuse priors.
+
+To apply stan we have to define this model in a file. Here I have
+saved the model in the file `data/normal_means.stan`, whose contents is as follows (as you can see there is some syntax to learn, but I think the file is reasonably self-explanatory):
+```{r}
+cat(paste0(readLines("../data/normal_means.stan"), collapse="\n"))
+```
+
+
+Now we try running this smodel on the 8-schools example. First I set up the data:
+```{r}
+schools_dat <- list(J = 8, 
+                    y = c(28,  8, -3,  7, -1,  1, 18, 12),
+                    s = c(15, 10, 16, 11,  9, 11, 10, 18))
+
+```
+
+Now run the model. I run 10 chains for 10000 iterations each. I get a lot of warnings
+because stan notices that the sampler is not working very well. We will see that in the results. (Also, I set warmup to 0 so we can see the full results; in practice you might want to use a warmup value to discard "burn-in"....)
+```{r, results='hide'}
+fit <- stan(file = '../data/normal_means.stan', data = schools_dat, warmup = 0, iter = 10000, chains = 10)
+
+```
+
+Here I extract the posterior samples and plot the samples for $\mu$; the 10 chains are concatenated here, and you can see the 10 different chains did not give the same result - indeed they are completely different, and some chains are not moving at all! Something is very wrong....
+```{r}
+posterior <- extract(fit)
+plot(posterior$mu)
+```
+
+
+Here is another view: we plot the trace plot of the "log-posterior" (ie the log-target density). [A nice thing about the log-target is that it provides a 1d summary of the fit, no matter how complex the model.] Again, we see the fit for different chains is very different.
+```{r}
+plot(posterior$lp__)
+```
+
+
+## The normal means model (part II)
+
+It turns out that this simple example is surprisingly challenging for `rstan`.
+There is a lengthy investigation  [here](https://mc-stan.org/users/documentation/case-studies/divergences_and_bias.html)
+
+I don't pretend to understand all the details of what is going wrong here, 
+but I believe that ultimately the problems are caused by the parameters in the model being too dependent. In particular, every $\theta_j$ depends on both $\mu$ and $\sigma^2$ (obvious from looking at the prior). We can reduce this dependence by "reparameterizing"; that is, specifying exactly the same model but in a different way. 
+For example:
+$$y_j | \eta_j, \mu, \sigma, s_j^2 \sim N(\mu + \sigma \eta_j, s_j^2) \qquad  j=1,\dots,J$$
+$$\eta_j \sim N(0,1).$$
+$$\mu \sim N(0,100^2)$$
+$$\sigma \sim \text{Half-Cauchy}(0,10).$$
+Notice that this is exactly the same model as before, but the parameters $\eta_j$ have replaced the parameters $\theta_j$ (the relationship being $\theta_j = \mu +\sigma \eta_j$). Further, in the prior all of the parameters
+$\eta_j, \mu, \sigma$ are now independent. 
+
+Choosing a good parameterization is a bit of an art. Ideally one would
+like the parameters to be approximately independent in the posterior distribution,
+but this is usually difficult to ensure because the parameters usually all occur together in the likelihood (as here). In practice it is usually easier to reparameterize so that (many) parameters are independent in the prior, and this is often a good starting point.
+That is the approach we have taken here.
+
+I have saved this new reparameterized model in the file `data/normal_means_reparam.stan`:
+```{r}
+cat(paste0(readLines("../data/normal_means_reparam.stan"), collapse="\n"))
+```
+
+Now try running the model as before:
+```{r, results='hide'}
+fit2 <- stan(file = '../data/normal_means_reparam.stan', data = schools_dat, warmup = 0, iter = 10000, chains = 10)
+
+```
+
+This time you can see the 10 chains look much more similar in some initial plots:
+```{r}
+posterior <- extract(fit2)
+plot(posterior$mu)
+plot(posterior$lp__)
+```
+
+
+Here we look at histograms of the posterior for $\sigma$ from the first two
+chains, in each case discarding the first 5000 iterations as "burn-in". You can see
+that, consistent with the maximum likelihood analysis for these data, the posterior mode for $\sigma$ is at 0.
+```{r}
+hist(posterior$sigma[5000:10000], main="Sampled sigma values, chain 1")
+hist(posterior$sigma[15001:20000],  main="Sampled sigma values, chain 2")
+```
+
+Here is a histogram of all the sampled values for $\mu$ (we should probably remove burn-in from each chain but I did not do that). The posterior mean for $\mu$ is `r mean(posterior$mu)`, which is also close to the mle from the Empirical Bayes analysis. 
+```{r}
+hist(posterior$mu)
+mean(posterior$mu)
+```
+
+
+A nice thing about sampling is that one can easily compute sampled values
+for any functions of the parameters. Here we compute sampled values for $\theta_1$ and plot a histogram. Note the shrinkage of the point estimate (28, black line) towards the prior mean (7.7, red line):
+```{r}
+theta1 = posterior$mu + posterior$sigma * posterior$eta[,1]
+hist(theta1)
+abline(v=c(28,7.7),col=c(1,2))
+```
+
